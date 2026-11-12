@@ -12,8 +12,8 @@ import type { HeroScene } from './hero'
  */
 export type Transition = 'rain' | 'grid' | 'water' | 'dusk'
 const MODE: Record<Transition, number> = { rain: 0, grid: 1, water: 2, dusk: 3 }
-// photographs with a live effect in the shader (see beams() in hero.ts)
-const LIVE = new Set(['red-grid'])
+// photographs with a live effect in the shader: 1 = beams(), 2 = dusk() in hero.ts
+const LIVE: Record<string, number> = { 'red-grid': 1, 'gold-silhouette': 2 }
 
 interface Step { from: string; to: string; mode: number; st: ScrollTrigger }
 
@@ -45,8 +45,8 @@ export function createBackdrop(hero: HeroScene, first: string): Backdrop {
     u.uBlend.value = tb ? p : 0
     if (tb) u.uNextB.value = tb
     u.uMode.value = mode
-    u.uFxA.value = LIVE.has(a) ? 1 : 0
-    u.uFxB.value = b && LIVE.has(b) ? 1 : 0
+    u.uFxA.value = LIVE[a] ?? 0
+    u.uFxB.value = b ? LIVE[b] ?? 0 : 0
   }
 
   return {

@@ -445,6 +445,20 @@ Screen (100svh; the photograph leads, the figure stays visible: only the left si
 
 Verified at 1536x730 (fits one screen with any demo open) and 375 phone (no sideways scroll), all four demos opened with no errors, Dijkstra route Gate -> B -> C -> F -> H (13), timetable 3 slots with no clashes. Not verified: motion at real speed.
 
+### Section 05 · round 2 (client feedback 2026-11-13)
+
+Feedback: "there are no animations and effects in the bg image in section 5, it feels plain and bland with no storytelling; the layout of More work and the projects is sloppy". The round-1 index + slide-in panel layout is replaced.
+
+**Story: "she looks out over the city, and four of its lights are her projects."**
+- **The photograph lives** (`dusk()` in `hero.ts`, live-effect id 2 for `gold-silhouette` via `LIVE` in `backdrop.ts`; `uFxA/uFxB` are now effect ids: 1 beams, 2 dusk): the clouds above her head drift (sampled through flowing noise), the burning sky breathes in slow patches, lit windows below the horizon shimmer, light streams along the glowing roads on the right, and sparse embers rise through the frame. The figure never moves (all effects are masked by sky/brightness/region). Off under reduced motion.
+- **Camera and beacon** (new uniforms `uNextPan`, `uBeacon`, `uBeaconAmt`): the chapter image can pan, and a light in the photograph can bloom (hot core, halo, ring pulsing outward), positioned in image coordinates.
+- **Desktop (>820px): a held, scroll-told walk** (`.ch5.is-story`, 520svh, sticky 100svh). Opening view: "More work" (Charlton Thin, neon glow) and "Four more projects, one light at a time." in the sky, the full photograph below. Then four steps, one per project: the camera glides (zoom 1.18 + clamped pan) toward a light in the city, the beacon blooms there, a line draws from that light to the project's plate, and the plate rises in (name masked, then count, tools, CV sentence, demo, note). Lights: Health Predictor = lit towers left (0.21, 0.45), Exam Scheduler = centre-left city (0.42, 0.31), E-Commerce = towers right (0.93, 0.45), Path Finder = the highway (0.83, 0.35). The plate sits on the far side from its light; the line follows the light as the camera and pointer move (`toScreen()` inverts the shader's cover/zoom/pan/pointer maths; `OVERSCAN` must match `ZOOM` in hero.ts).
+- Leaving a step: old plate and line go quickly, all at once; rapid jumps are interrupt-safe. A four-step rail at the bottom shows where you are and jumps there (`src/scroll.ts` scrolls through Lenis). Scrolling back above the section resets the pan and beacon.
+- **Phones and reduced motion:** no hold; the opening view, then the four plates in flow; each plate lights its beacon (and pans gently) as it reaches the middle of the screen.
+- The four demos are unchanged (Path Finder Dijkstra, Exam Scheduler timetable with clash highlighting, schema, dashboard sketch), still labelled as illustrations.
+
+Verified at 1536x730 (opening view, all four steps, each plate fits, line drawn from the right light, interruption, reset on leaving) and 375 phone (beacon per plate, no sideways scroll); no errors; impeccable detector clean. Not verified: the living-dusk effects and camera glides at real speed (hidden preview pane).
+
 ### Image quality fix (2026-11-13, branch `section-05`)
 
 Client: "did you reduce the bg image quality, why do the images look dull?" Cause: `hero.ts` chose `-960` (half-size, q86 lossy) files when `max(screen.width, screen.height) * devicePixelRatio < 1100`, decided once at page load. After a phone-size test in the preview pane, the page reloaded with a phone-sized `screen`, so every photograph was the small file even at desktop size. Fix: the `-960` path is removed; every device always loads the full-size lossless originals (`suffix = ''`). Verified: full files load even when the page loads at 375 px.

@@ -23,8 +23,11 @@ uniform sampler2D uNext;   // chapter image A (current)
 uniform sampler2D uNextB;  // chapter image B (incoming)
 uniform float uBlend;      // 0 = A, 1 = B: transition between chapter images
 uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = dusk bloom
-uniform float uFxA;        // 1 when slot A holds the red-grid photo (animated beams)
+uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 silhouette dusk
 uniform float uFxB;        // same for slot B
+uniform vec2 uNextPan;     // camera pan across the chapter photograph (image uv units)
+uniform vec2 uBeacon;      // a light in the photograph, image uv (Section 05 story)
+uniform float uBeaconAmt;  // 0..1 beacon strength
 uniform vec2 uRes;
 uniform float uTexAspect;
 uniform vec2 uTexel;     // 1 / texture size
@@ -88,6 +91,50 @@ vec3 beams(sampler2D t, vec2 uv, vec3 c) {
   float fl = step(0.82, hash2(lid + floor(uTime * 7.0 + hash2(lid) * 7.0)));
   c += c * amber * (0.35 + 0.65 * fl) * 0.45 * uMotion;
   return c;
+}
+
+// ---- silhouette photo: the dusk comes alive (the figure itself never moves) ----
+float luma(vec3 c) { return dot(c, vec3(0.299, 0.587, 0.114)); }
+vec3 dusk(sampler2D t, vec2 uv, vec3 c) {
+  // 1. clouds drift: the sky above the figure's head is sampled through a slow flowing offset
+  float sky = smoothstep(0.62, 0.72, uv.y);
+  vec2 flow = vec2(noise2(uv * vec2(2.5, 6.0) + vec2(uTime * 0.05, 0.0)) - 0.5,
+                   noise2(uv * vec2(3.0, 5.0) - vec2(uTime * 0.04, 0.0) + 7.0) - 0.5);
+  vec3 s = texture2D(t, clamp(uv + flow * vec2(0.014, 0.007) * uMotion, 0.0, 1.0)).rgb;
+  c = mix(c, s, sky);
+  // 2. the fire breathes: the burning parts of the sky swell and ebb in slow patches
+  float warm = smoothstep(0.25, 0.7, c.r) * smoothstep(0.05, 0.3, c.r - c.b);
+  float breath = noise2(uv * vec2(2.0, 3.0) + vec2(uTime * 0.07, uTime * 0.03));
+  c *= 1.0 + warm * (breath - 0.35) * 0.35 * uMotion;
+  // 3. city windows twinkle: bright points below the horizon flare or dip, each on its own clock
+  float city = 1.0 - smoothstep(0.5, 0.6, uv.y);
+  float bright = smoothstep(0.55, 0.9, luma(c));
+  vec2 cell = floor(uv * vec2(480.0, 270.0));
+  float ph = hash2(cell);
+  float flick = sin(uTime * (0.8 + ph * 2.6) + ph * 40.0);
+  c *= 1.0 + city * bright * step(0.55, ph) * flick * 0.3 * uMotion;
+  // 4. traffic: light streams along the glowing roads on the right of the city
+  float region = smoothstep(0.66, 0.78, uv.x) * smoothstep(0.24, 0.29, uv.y) * (1.0 - smoothstep(0.41, 0.46, uv.y));
+  float road = region * smoothstep(0.42, 0.75, luma(c)) * smoothstep(0.05, 0.25, c.r - c.b);
+  float lane = floor(uv.y * 220.0);
+  float stream = pow(0.5 + 0.5 * sin(uv.x * 85.0 - uTime * (2.4 + hash(lane) * 2.0) + hash(lane + 9.0) * 6.28), 14.0);
+  c += vec3(1.0, 0.86, 0.62) * road * stream * 0.9 * uMotion;
+  // 5. embers rise through the whole frame, sparse, drifting as they climb
+  vec2 eg = uv * vec2(28.0, 16.0);
+  eg.y -= uTime * 0.32;
+  vec2 ei = floor(eg), ef = fract(eg) - 0.5;
+  float er = hash2(ei);
+  vec2 ep = (vec2(hash2(ei + 3.1), hash2(ei + 5.7)) - 0.5) * 0.6;
+  ep.x += sin(uTime * 1.3 + er * 6.28) * 0.15;
+  vec2 dd = ef - ep;
+  float ember = step(0.84, er) * exp(-dot(dd, dd) * 650.0) * (0.55 + 0.45 * sin(uTime * 6.0 + er * 40.0));
+  c += vec3(1.0, 0.55, 0.16) * ember * 1.3 * uMotion;
+  return c;
+}
+
+vec3 live(sampler2D t, vec2 uv, vec3 c, float fx) {
+  if (fx > 1.5) return dusk(t, uv, c);
+  return beams(t, uv, c);
 }
 
 vec2 cover(vec2 uv) {
@@ -184,11 +231,20 @@ void main() {
   c *= 1.0 - dot(vv, vv) * 0.55;
 
   // 8. scroll exit: columns burn out top-down into the next chapter's image
-  vec2 np = (cover(vUv) - 0.5) / uNextZoom + 0.5;
+  vec2 np = (cover(vUv) - 0.5) / uNextZoom + 0.5 + uNextPan;
   np -= (uMouse - 0.5) * vec2(0.006, 0.004) * uMotion;
   // next chapter image: full brightness and the same light sharpening as the hero photo
   vec3 nx = sharpSample(uNext, clamp(np, 0.0, 1.0));
-  if (uFxA > 0.5) nx = beams(uNext, clamp(np, 0.0, 1.0), nx);
+  if (uFxA > 0.5) nx = live(uNext, clamp(np, 0.0, 1.0), nx, uFxA);
+  if (uBeaconAmt > 0.001) {
+    // a light in the city blooms: hot core, a soft halo and a ring that keeps pulsing outward
+    vec2 bd = (np - uBeacon) * vec2(uTexAspect, 1.0);
+    float r = length(bd);
+    float ring = fract(uTime * 0.45);
+    float pulse = exp(-pow((r - ring * 0.09) / 0.004, 2.0)) * (1.0 - ring);
+    float glow = exp(-r * r / 0.0009) * 0.9 + exp(-r * r / 0.00006) * 1.6;
+    nx += vec3(1.0, 0.72, 0.36) * (glow + pulse * 0.9 * uMotion) * uBeaconAmt;
+  }
   if (uBlend > 0.0 && uMode < 0.5) {
     // falling-rain dissolve: thin columns of B run down from the top at their own speeds,
     // each with a bright wet leading edge, then the rest of the frame floods in
@@ -201,7 +257,7 @@ void main() {
     // the run drags B down slightly near its edge (a drip), then settles
     vec2 bp = np + vec2(0.0, (1.0 - smoothstep(0.0, 0.25, front)) * 0.035 * (1.0 - flood));
     vec3 nb = sharpSample(uNextB, clamp(bp, 0.0, 1.0));
-    if (uFxB > 0.5) nb = beams(uNextB, clamp(bp, 0.0, 1.0), nb);
+    if (uFxB > 0.5) nb = live(uNextB, clamp(bp, 0.0, 1.0), nb, uFxB);
     float edge = smoothstep(0.0, 0.025, front) * (1.0 - smoothstep(0.025, 0.09, front)) * (1.0 - flood);
     nx = mix(nx, nb, m) + vec3(1.0, 0.36, 0.26) * edge * 0.55;
   } else if (uBlend > 0.0 && uMode < 1.5) {
@@ -217,7 +273,7 @@ void main() {
     float r = t * 1.1;
     float m = 1.0 - smoothstep(r - 0.05, r, d);
     vec3 nb = sharpSample(uNextB, clamp(np, 0.0, 1.0));
-    if (uFxB > 0.5) nb = beams(uNextB, clamp(np, 0.0, 1.0), nb);
+    if (uFxB > 0.5) nb = live(uNextB, clamp(np, 0.0, 1.0), nb, uFxB);
     float run = sin(3.14159 * clamp(uBlend, 0.0, 1.0));
     float ring = (1.0 - smoothstep(0.0, 0.07, abs(d - r))) * step(0.001, t) * (1.0 - t);
     float line = 1.0 - smoothstep(0.0, 0.045, 1.0 - d);
@@ -238,7 +294,7 @@ void main() {
     float rip = exp(-max(d, 0.0) * 6.0) * settle * uMotion;
     vec2 bp = np + vec2(sin(vUv.y * 95.0 - uTime * 2.4) * 0.007, cos(vUv.x * 40.0 + uTime * 1.7) * 0.004) * rip;
     vec3 nb = sharpSample(uNextB, clamp(bp, 0.0, 1.0));
-    if (uFxB > 0.5) nb = beams(uNextB, clamp(bp, 0.0, 1.0), nb);
+    if (uFxB > 0.5) nb = live(uNextB, clamp(bp, 0.0, 1.0), nb, uFxB);
     // above the line: the old image turns amber, strongest close to the water
     float lum = dot(nx, vec3(0.45, 0.42, 0.13));
     vec3 warm = lum * vec3(1.45, 0.86, 0.3) + nx * vec3(0.25, 0.18, 0.05);
@@ -258,7 +314,7 @@ void main() {
     float settle = 1.0 - smoothstep(0.85, 1.0, uBlend);
     vec2 bp = np + vec2(0.0, shimmer * 0.12 * settle);
     vec3 nb = sharpSample(uNextB, clamp(bp, 0.0, 1.0));
-    if (uFxB > 0.5) nb = beams(uNextB, clamp(bp, 0.0, 1.0), nb);
+    if (uFxB > 0.5) nb = live(uNextB, clamp(bp, 0.0, 1.0), nb, uFxB);
     float edge = exp(-abs(reach - 0.02) * 40.0) * settle;
     nx = mix(nx, nb, m) + vec3(1.0, 0.45, 0.08) * edge * 0.7;
   }
@@ -324,6 +380,9 @@ export function createHero(canvas: HTMLCanvasElement, opts: { reducedMotion: boo
     uMode: { value: 0 },
     uFxA: { value: 0 },
     uFxB: { value: 0 },
+    uNextPan: { value: new THREE.Vector2(0, 0) },
+    uBeacon: { value: new THREE.Vector2(0.5, 0.5) },
+    uBeaconAmt: { value: 0 },
     uNextZoom: { value: 1 },
     uNextBright: { value: 1 },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) },
