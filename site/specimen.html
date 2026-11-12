@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Type Specimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Alex+Brush&family=Allura&family=Corinthia:wght@400;700&family=Great+Vibes&family=Italianno&family=Parisienne&family=Rouge+Script&family=Noto+Serif+Display:ital,wdth,wght@0,62.5..100,100..900;1,62.5..100,100..900&family=Pinyon+Script&family=Playfair:ital,opsz,wdth,wght@0,5..1200,87.5..112.5,300..900;1,5..1200,87.5..112.5,300..900&display=swap" rel="stylesheet" />
+<style>
+  @font-face { font-family: "Charlton"; src: url("/fonts/Charlton-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Charlton"; src: url("/fonts/Charlton-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+  @font-face { font-family: "Charlton"; src: url("/fonts/Charlton-LightItalic.woff2") format("woff2"); font-weight: 300; font-style: italic; font-display: swap; }
+
+  :root {
+    --ink: #0b0605;
+    --paper: #efe6dc;
+    --mute: #8c7b70;
+    --poster: #e50c0a;
+    --rule: rgba(229, 12, 10, .55);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: "Archivo", sans-serif;
+    font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::after { /* film grain */
+    content: ""; position: fixed; inset: -50%; pointer-events: none; opacity: .09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .caps { font-stretch: 62%; font-variation-settings: "wdth" 62; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; font-size: 11px; line-height: 1.25; }
+  header { display: flex; justify-content: space-between; gap: 16px; padding: 18px 20px; border-bottom: 1px solid var(--rule); color: var(--poster); }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 0; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+  /* Left: reference */
+  .ref { padding: 24px 20px; border-right: 1px solid var(--rule); }
+  .ref img { width: 100%; max-width: 520px; display: block; }
+  .ref p { color: var(--mute); margin-top: 14px; max-width: 52ch; font-size: 14px; line-height: 1.5; }
+  .sticky { position: sticky; top: 16px; }
+
+  /* Right: live preview + choices */
+  .lab { padding: 24px 20px 64px; }
+  .stage {
+    position: relative; aspect-ratio: 1 / 1; max-width: 620px; overflow: hidden; isolation: isolate; container-type: inline-size;
+    background: #120807 url("/img/hero-chongqing-960.webp") center / cover;
+  }
+  .stage::before { content: ""; position: absolute; inset: 0; backdrop-filter: blur(10px) brightness(.55) saturate(.8); z-index: -1; }
+  .corner { position: absolute; color: var(--poster); }
+  .corner.tl { top: 12px; left: 14px; } .corner.tr { top: 12px; right: 14px; text-align: right; }
+  .corner.bl { bottom: 12px; left: 14px; } .corner.br { bottom: 12px; right: 14px; text-align: right; }
+  .lockup { position: absolute; inset: 0; display: grid; place-items: center; color: var(--poster); }
+  .lockup .stack { position: relative; text-align: center; }
+  .serifword { font-size: 25cqi; line-height: .9; letter-spacing: -.01em; display: block; }
+  .scriptword {
+    position: absolute; left: 50%; top: -0.05em; transform: translate(-54%, -66%) rotate(-7deg);
+    font-size: 25cqi; line-height: 1; white-space: nowrap; mix-blend-mode: normal;
+  }
+  .lockup .rule { display: flex; align-items: center; gap: 10px; margin-top: 18px; justify-content: center; }
+  .lockup .rule i { height: 1px; width: 120px; background: var(--rule); }
+  .pill { border: 1.5px solid var(--poster); border-radius: 999px; padding: 3px 12px 2px; font-size: 13px; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 16px 24px; margin: 22px 0 8px; align-items: center; }
+  .controls label { display: flex; gap: 8px; align-items: center; }
+  .controls input[type=text] { background: transparent; border: 0; border-bottom: 1px solid var(--rule); color: var(--paper); font: inherit; font-size: 14px; padding: 4px 0; width: 140px; }
+
+  h2 { margin: 40px 0 6px; color: var(--poster); }
+  .opts { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .opt {
+    display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 12px;
+    padding: 14px 4px; border-bottom: 1px solid rgba(239,230,220,.08); cursor: pointer; color: var(--paper);
+    background: none; border-left: 0; border-right: 0; border-top: 0; text-align: left; font: inherit;
+    transition: background-color .2s ease;
+  }
+  .opt:hover { background: rgba(229,12,10,.06); }
+  .opt[aria-pressed="true"] { background: rgba(229,12,10,.12); }
+  .opt[aria-pressed="true"] .key { background: var(--poster); color: var(--ink); }
+  .key { width: 28px; height: 28px; border-radius: 999px; border: 1px solid var(--poster); display: grid; place-items: center; color: var(--poster); }
+  .sample { font-size: clamp(40px, 6vw, 72px); line-height: 1.05; color: var(--poster); overflow: hidden; white-space: nowrap; text-overflow: clip; }
+  .meta { text-align: right; color: var(--mute); }
+  .secondary { margin-top: 12px; border-top: 1px solid var(--rule); padding-top: 16px; }
+  .secondary .big { font-family: "Charlton"; font-weight: 300; font-size: clamp(40px, 6vw, 68px); color: #f1e3b8; }
+  .secondary .body { font-size: 16px; line-height: 1.55; max-width: 60ch; margin-top: 12px; color: var(--paper); }
+  .secondary .metrics { font-variant-numeric: tabular-nums; font-size: 15px; color: var(--mute); margin-top: 10px; }
+</style>
+</head>
+<body>
+<header class="caps">
+  <span>Step 0 · Type specimen<br />for review</span>
+  <span>Pragya Reddy A<br />Portfolio</span>
+  <span>Pick one script<br />+ one serif</span>
+</header>
+
+<main>
+  <section class="ref">
+    <div class="sticky">
+      <div class="caps" style="color:var(--poster);margin-bottom:10px">Reference · main font.jpeg</div>
+      <img src="/ref/poster.jpg" alt="Reference poster: red script 'Start' layered over condensed serif 'Somewhere'" />
+      <p>Click a row on the right to swap it into the live poster preview. The words in the preview are editable, so you can compare against “Start / Somewhere” or see the name.</p>
+    </div>
+  </section>
+
+  <section class="lab">
+    <div class="stage" id="stage">
+      <div class="corner tl caps">Chennai,<br />Tamil Nadu</div>
+      <div class="corner tr caps">B.Tech CSE<br />2024 – 2028</div>
+      <div class="corner bl caps">SRM IST</div>
+      <div class="corner br caps">Ramapuram</div>
+      <div class="lockup">
+        <div class="stack">
+          <span class="serifword" id="serifWord">Somewhere</span>
+          <span class="scriptword" id="scriptWord">Start</span>
+          <div class="rule"><i></i><span class="pill caps">Portfolio</span><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls caps">
+      <label>Script word <input type="text" id="inScript" value="Start" /></label>
+      <label>Serif word <input type="text" id="inSerif" value="Somewhere" /></label>
+      <label><input type="checkbox" id="useName" checked /> Show her name</label>
+    </div>
+
+    <h2 class="caps">Script · the “Start” layer</h2>
+    <div class="opts" id="scriptOpts"></div>
+
+    <h2 class="caps">Condensed serif · the “Somewhere” layer</h2>
+    <div class="opts" id="serifOpts"></div>
+
+    <h2 class="caps">Secondary + body (fixed)</h2>
+    <div class="secondary">
+      <div class="big">Signal, reflection, clarity</div>
+      <div class="caps" style="color:var(--mute);margin-top:6px">Charlton Light · Creativetacos (your file)</div>
+      <p class="body">Plain-English chat interface over ARGO float data: an LLM grounded by retrieval-augmented generation translates each question into a SQL query against the database.</p>
+      <p class="metrics">AUC 0.7579 vs 0.7562 · macro-F1 0.228 vs 0.225 · CGPA 9.26/10</p>
+      <div class="caps" style="color:var(--mute);margin-top:6px">Archivo · body + UI · condensed caps for labels</div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const scripts = [
+    { k: "A", name: "Pinyon Script", css: "'Pinyon Script', cursive", note: "Copperplate, fine" },
+    { k: "B", name: "Great Vibes", css: "'Great Vibes', cursive", note: "Rounder, medium weight" },
+    { k: "C", name: "Alex Brush", css: "'Alex Brush', cursive", note: "Brush, bolder" },
+    { k: "D", name: "Allura", css: "'Allura', cursive", note: "Light, upright-ish" },
+    { k: "E", name: "Parisienne", css: "'Parisienne', cursive", note: "Even, bold-ish" },
+    { k: "F", name: "Rouge Script", css: "'Rouge Script', cursive", note: "Narrow, heavy downstrokes" },
+    { k: "G", name: "Corinthia Bold", css: "'Corinthia', cursive", note: "Tall, high contrast", extra: "font-weight:700" },
+    { k: "H", name: "Italianno", css: "'Italianno', cursive", note: "Narrow, calm" },
+  ];
+  const serifs = [
+    { k: "1", name: "Noto Serif Display · ExtraCondensed", css: "'Noto Serif Display', serif", vs: "'wdth' 62.5, 'wght' 500", note: "Closest proportions" },
+    { k: "2", name: "Noto Serif Display · Condensed", css: "'Noto Serif Display', serif", vs: "'wdth' 75, 'wght' 500", note: "A touch wider, easier to read" },
+    { k: "3", name: "Playfair · Narrow, display size", css: "'Playfair', serif", vs: "'wdth' 87.5, 'opsz' 1200, 'wght' 500", note: "Sharper hairlines, wider" },
+  ];
+  const state = { script: 0, serif: 0 };
+  const $ = (id) => document.getElementById(id);
+
+  function row(o, i, kind) {
+    const b = document.createElement("button");
+    b.className = "opt"; b.type = "button";
+    b.setAttribute("aria-pressed", i === state[kind] ? "true" : "false");
+    const named = $("useName").checked;
+    const sample = kind === "script" ? (named ? "Pragya" : "Start") : (named ? "Reddy" : "Somewhere");
+    const style = kind === "script" ? `font-family:${o.css};${o.extra || ""}` : `font-family:${o.css};font-variation-settings:${o.vs}`;
+    b.innerHTML = `<span class="key caps">${o.k}</span><span class="sample" style="${style}">${sample}</span><span class="meta caps">${o.name}<br>${o.note}</span>`;
+    b.onclick = () => { state[kind] = i; render(); };
+    return b;
+  }
+  function render() {
+    $("scriptOpts").replaceChildren(...scripts.map((o, i) => row(o, i, "script")));
+    $("serifOpts").replaceChildren(...serifs.map((o, i) => row(o, i, "serif")));
+    const s = scripts[state.script], f = serifs[state.serif];
+    $("scriptWord").style.cssText = `font-family:${s.css};${s.extra || ""}`;
+    $("serifWord").style.cssText = `font-family:${f.css};font-variation-settings:${f.vs}`;
+    const useName = $("useName").checked;
+    $("scriptWord").textContent = useName ? "Pragya" : $("inScript").value;
+    $("serifWord").textContent = useName ? "Reddy" : $("inSerif").value;
+    fit();
+  }
+  // Fit the serif word to ~88% of the poster width, like the reference; script scales with it.
+  function fit() {
+    const stage = $("stage"), w = $("serifWord"), sc = $("scriptWord");
+    w.style.fontSize = "100px";
+    const size = Math.min(100 * (stage.clientWidth * 0.88) / w.scrollWidth, stage.clientWidth * 0.3);
+    w.style.fontSize = size + "px";
+    sc.style.fontSize = "100px";
+    const scriptSize = Math.min(size * 0.82, 100 * (stage.clientWidth * 0.8) / sc.scrollWidth);
+    sc.style.fontSize = scriptSize + "px";
+  }
+  addEventListener("resize", fit);
+  document.fonts.ready.then(fit);
+  ["inScript", "inSerif", "useName"].forEach((id) => $(id).addEventListener("input", render));
+  render();
+</script>
+</body>
+</html>

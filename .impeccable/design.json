@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-13T00:00:00Z",
+  "title": "Design System: Pragya Reddy A · Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "exposure-red": { "role": "primary", "displayName": "Exposure Red", "tonalRamp": ["#2b0601", "#4d0b02", "#7a1203", "#a81a05", "#e42e08", "#ef6a48", "#f6a48f", "#fbd8cf"] },
+      "signal-glow": { "role": "primary", "displayName": "Signal Glow", "tonalRamp": ["#2a0805", "#4f110a", "#7d1d12", "#b2321f", "#e95d46", "#f08a78", "#f6b8ac", "#fbe2dd"] },
+      "reflection-glow": { "role": "primary", "displayName": "Reflection Glow", "tonalRamp": ["#2a1602", "#4d2903", "#7b4206", "#b8640b", "#f58e12", "#f8ae55", "#fbcf98", "#fdecd6"] },
+      "exposure-amber": { "role": "secondary", "displayName": "Exposure Amber" },
+      "signal-amber": { "role": "secondary", "displayName": "Signal Amber" },
+      "reflection-core": { "role": "secondary", "displayName": "Reflection Core" },
+      "clarity-blue": { "role": "tertiary", "displayName": "Clarity Blue (Chapter III, provisional)" },
+      "clarity-magenta": { "role": "tertiary", "displayName": "Clarity Magenta (Chapter III, provisional)" },
+      "exposure-ink": { "role": "neutral", "displayName": "Exposure Ink" },
+      "signal-ink": { "role": "neutral", "displayName": "Signal Ink" },
+      "reflection-ink": { "role": "neutral", "displayName": "Reflection Ink" },
+      "reflection-pale": { "role": "neutral", "displayName": "Reflection Pale" }
+    },
+    "typographyMeta": {
+      "script": { "displayName": "Script", "purpose": "Only the name Pragya in the hero lockup." },
+      "display": { "displayName": "Display", "purpose": "Single dramatic words and numbers that own a screen." },
+      "chapter-word": { "displayName": "Chapter word", "purpose": "One neon word per chapter title." },
+      "headline": { "displayName": "Headline", "purpose": "Institution names, project titles, model headings." },
+      "body": { "displayName": "Body", "purpose": "Descriptions and info lines." },
+      "label": { "displayName": "Label", "purpose": "Corner labels, tags, stage names, tools." }
+    },
+    "shadows": [
+      { "name": "plate", "value": "0 24px 60px -20px rgba(0,0,0,.8)", "purpose": "Single ambient drop shadow under instrument plates." },
+      { "name": "state-glow", "value": "0 0 28px rgba(233,93,70,.25)", "purpose": "Active instrument step in Chapter I (use the chapter glow colour)." }
+    ],
+    "motion": [
+      { "name": "ease-entrance", "value": "expo.out (GSAP) / cubic-bezier(.23,1,.32,1)", "purpose": "Entrances and masked text rises." },
+      { "name": "ease-scrub", "value": "none", "purpose": "Scroll-scrubbed transitions and parallax." },
+      { "name": "state", "value": "0.2–0.25s ease", "purpose": "Hover, focus and active state changes on instruments." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "820px", "purpose": "Below: single column, pins released." },
+      { "name": "narrow-desktop", "value": "1100px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Instrument step",
+      "kind": "custom",
+      "refersTo": "instrument-step",
+      "description": "A square diagram step that lights up when pointed at, focused or tapped.",
+      "html": "<button class=\"ds-step\"><span class=\"ds-tag\">03 · Graph neural network</span><span class=\"ds-name\">PyTorch Geometric</span></button>",
+      "css": ".ds-step { all: unset; cursor: pointer; display: flex; flex-direction: column; gap: 8px; padding: 18px; background: rgba(14,4,3,.72); border: 1px solid rgba(255,217,207,.18); transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; } .ds-step:hover, .ds-step.on { border-color: #ffb05a; background: rgba(40,10,4,.82); box-shadow: 0 0 28px rgba(233,93,70,.25); } .ds-step:focus-visible { outline: 2px solid #ffb05a; outline-offset: 3px; } .ds-tag { font: 600 11px 'Archivo Variable', sans-serif; font-stretch: 62%; letter-spacing: .16em; text-transform: uppercase; color: #e95d46; } .ds-name { font: 300 24px Charlton, serif; color: #fff1ec; }"
+    },
+    {
+      "name": "Question button",
+      "kind": "button",
+      "refersTo": "question-button",
+      "description": "Asks the ARGO console a question; pressed state shows the running question.",
+      "html": "<button class=\"ds-q\" aria-pressed=\"true\">Where has this float travelled?</button>",
+      "css": ".ds-q { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; font: 14px 'Archivo Variable', sans-serif; color: #fff4e0; border: 1px solid rgba(255,230,194,.28); background: rgba(18,12,6,.7); transition: border-color .2s ease, background-color .2s ease, transform .2s cubic-bezier(.23,1,.32,1); } .ds-q::before { content: ''; width: 7px; height: 7px; border-top: 1.5px solid #f58e12; border-right: 1.5px solid #f58e12; transform: rotate(45deg); } .ds-q:hover { border-color: #ca8334; transform: translateY(-1px); } .ds-q[aria-pressed='true'] { border-color: #f58e12; background: rgba(72,37,6,.75); color: #fff; } .ds-q:focus-visible { outline: 2px solid #f58e12; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tab",
+      "kind": "chip",
+      "refersTo": "question-button",
+      "description": "Square condensed-caps tab for 'also in the project' rows.",
+      "html": "<button class=\"ds-tab\" aria-selected=\"true\">Reject inference</button>",
+      "css": ".ds-tab { all: unset; cursor: pointer; padding: 7px 11px; font: 600 11px 'Archivo Variable', sans-serif; font-stretch: 62%; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,230,194,.7); border: 1px solid rgba(255,230,194,.2); transition: color .2s ease, border-color .2s ease, background-color .2s ease; } .ds-tab:hover { color: #fff; border-color: #ca8334; } .ds-tab[aria-selected='true'] { color: #fff; border-color: #f58e12; background: rgba(72,37,6,.6); } .ds-tab:focus-visible { outline: 2px solid #f58e12; outline-offset: 2px; }"
+    },
+    {
+      "name": "Corner label",
+      "kind": "custom",
+      "refersTo": "corner-label",
+      "description": "Poster-style caps fixed to a screen corner.",
+      "html": "<p class=\"ds-corner\">Chapter II<br>04 · Featured work</p>",
+      "css": ".ds-corner { margin: 0; font: 600 12px/1.25 'Archivo Variable', sans-serif; font-stretch: 62%; letter-spacing: .06em; text-transform: uppercase; color: #ebe8da; }"
+    },
+    {
+      "name": "Instrument plate",
+      "kind": "card",
+      "refersTo": "instrument-plate",
+      "description": "Dark square control panel that hosts a working project piece.",
+      "html": "<div class=\"ds-plate\"><span class=\"ds-tag\">AUC</span><b class=\"ds-num\">0.7579</b></div>",
+      "css": ".ds-plate { padding: 20px; background: linear-gradient(180deg, rgba(26,17,8,.9), rgba(14,9,4,.93)); border: 1px solid rgba(255,230,194,.16); box-shadow: 0 24px 60px -20px rgba(0,0,0,.8); display: grid; gap: 6px; } .ds-plate .ds-tag { font: 600 11px 'Archivo Variable', sans-serif; font-stretch: 62%; letter-spacing: .16em; text-transform: uppercase; color: #f58e12; } .ds-num { font: 500 56px/0.9 'Noto Serif Display Variable', serif; font-stretch: 62.5%; color: #fff4e0; text-shadow: 0 0 .3em rgba(245,142,18,.5); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Long Exposure",
+    "overview": "The site is a camera shutter left open over one city night. Light is the material: streaks, glow, neon and reflections on water. The visitor scrolls through a single continuous exposure told in three colour chapters, I · Signal (red), II · Reflection (gold) and III · Clarity (cool neon), each graded to match the client's own photographs. Chapters never cut; one image always dissolves into the next through a transition born from the photograph itself (rain on the rooftop, tiles on the grid, a rising tide on the river).\n\nThe photographs are the stage and stay visible: one fullscreen WebGL canvas draws them, sharpened and alive, and every section sits on top of it with the lightest scrim that keeps type readable. Typography is poster-like and enormous at the chapter moments, then precise and small for the facts. Interface pieces are instruments in the dark: square-edged plates with fine lines that light up in the chapter's glow when touched, so the work is shown operating rather than described.",
+    "keyCharacteristics": [
+      "One fullscreen photograph at a time, always visible, transitioning by its own physics.",
+      "Three palettes, one per chapter; the comet cursor and every accent follow the chapter in view.",
+      "Giant poster type for chapters and names; condensed caps for labels; a readable sans for facts.",
+      "Square instrument plates, 1px rules, glow only as a response to state.",
+      "Every project demonstrates its mechanism through interaction."
+    ],
+    "rules": [
+      { "name": "The Chapter Rule", "body": "Accents come only from the chapter in view. A gold accent never appears in Chapter I, a red one never in Chapter II. The comet cursor changes palette at the chapter boundary.", "section": "colors" },
+      { "name": "The Photograph First Rule", "body": "A scrim may darken a photograph for reading but never bury it: project screens keep the photograph at 0.8 or more brightness; full-strength behind chapter titles.", "section": "colors" },
+      { "name": "The Two Scales Rule", "body": "Type is either enormous (a single word or number that owns the screen) or small and precise. Nothing in between competes with the hero word of a screen.", "section": "typography" },
+      { "name": "The Light-Not-Lift Rule", "body": "Elements never lift on shadow ramps. State is shown by light: the border turns the chapter glow, the plate warms, a soft glow appears.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep every fact traceable to the CV; label illustrations as illustrations on screen.",
+      "Do give each project an interaction that shows its mechanism working.",
+      "Do transition between chapter photographs with an effect drawn from the photograph (rain, grid tiles, tide), through the shared backdrop controller.",
+      "Do use the chapter's palette for every accent and switch the comet palette at the chapter boundary.",
+      "Do keep pieces square with 1px hairlines and show state with light.",
+      "Do ship reduced-motion final states for every animation."
+    ],
+    "donts": [
+      "Don't use the hero-metric template (big number, small label, supporting stats) on its own as a project screen.",
+      "Don't use meaningless section numbers or a/b/c bullet cards as structure.",
+      "Don't bury the photograph under a heavy scrim.",
+      "Don't use rounded cards, glassmorphism, gradient text or emoji icons.",
+      "Don't publish the phone number, or invent results, links or testimonials.",
+      "Don't use Inter, Geist, Space Grotesk or Instrument Serif."
+    ]
+  }
+}

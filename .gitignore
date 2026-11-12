@@ -1,0 +1,13 @@
+# private: the CV contains a phone number that must never be published
+Pragya_Reddy_A-CV-Optum-IEDP.pdf
+*.pdf
+# licensed font originals (the site ships only the converted webfonts it needs)
+aa-pr-upscaled-photos/charlton.zip
+# build and tooling
+node_modules/
+dist/
+.impeccable/config.local.json
+.impeccable/questions/
+.impeccable/mocks/
+.impeccable/review/
+*.tmp
