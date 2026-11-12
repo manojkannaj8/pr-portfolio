@@ -445,6 +445,12 @@ Screen (100svh; the photograph leads, the figure stays visible: only the left si
 
 Verified at 1536x730 (fits one screen with any demo open) and 375 phone (no sideways scroll), all four demos opened with no errors, Dijkstra route Gate -> B -> C -> F -> H (13), timetable 3 slots with no clashes. Not verified: motion at real speed.
 
+### Image quality fix (2026-11-13, branch `section-05`)
+
+Client: "did you reduce the bg image quality, why do the images look dull?" Cause: `hero.ts` chose `-960` (half-size, q86 lossy) files when `max(screen.width, screen.height) * devicePixelRatio < 1100`, decided once at page load. After a phone-size test in the preview pane, the page reloaded with a phone-sized `screen`, so every photograph was the small file even at desktop size. Fix: the `-960` path is removed; every device always loads the full-size lossless originals (`suffix = ''`). Verified: full files load even when the page loads at 375 px.
+
+Separate, deliberate darkening still in place on approved screens (for text legibility): brightness multiplier 0.6 behind the Chapter I statement, 0.63 behind the HIEN diagram, 0.8 behind the two featured projects; CSS scrims up to 0.62–0.8 alpha on the text side of Education, Experience, HIEN, the project screens and Section 05.
+
 ## 15. Exact next step
 
 Git: repo https://github.com/manojkannaj8/pr-portfolio (public). `main` = approved state (hero, comet, Sections 01–04). The CV PDF (phone number) and `charlton.zip` are git-ignored and must stay out of the repo.

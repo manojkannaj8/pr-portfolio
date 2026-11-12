@@ -293,9 +293,9 @@ export function createHero(canvas: HTMLCanvasElement, opts: { reducedMotion: boo
   const scene = new THREE.Scene()
   const camera = new THREE.Camera()
 
-  // pick by real device pixels: only genuinely small screens get the 960px files
-  const devicePx = Math.max(window.screen.width, window.screen.height) * window.devicePixelRatio
-  const suffix = devicePx < 1100 ? '-960' : ''
+  // always the full-quality lossless photographs: quality is the client's first priority, and a
+  // size guess made once at load (from window.screen) proved unreliable and served soft images
+  const suffix = ''
   const loader = new THREE.TextureLoader()
   const load = (url: string) =>
     new Promise<THREE.Texture>((res, rej) =>
