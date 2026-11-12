@@ -62,7 +62,6 @@ export function mountFeatured(root: HTMLElement, hero: HeroScene, backdrop: Back
       <p class="ch4-corner tl t-caps" data-deco>Chapter II<br>of III</p>
       <p class="ch4-corner tr t-caps" data-deco>Featured work</p>
       <div class="ch4-head">
-        <p class="ch4-kicker t-caps" data-support><i class="rule"></i>Chapter II<i class="rule"></i></p>
         <h2 id="ch4-h" class="ch4-word t-secondary" aria-label="Reflection">${word}</h2>
         <p class="ch4-mirror t-secondary" aria-hidden="true">Reflection</p>
       </div>
@@ -104,15 +103,14 @@ export function mountFeatured(root: HTMLElement, hero: HeroScene, backdrop: Back
   // ---------- chapter title ----------
   const chars = title.querySelectorAll<HTMLElement>('.ch .in')
   const mirror = title.querySelector<HTMLElement>('.ch4-mirror')!
-  const tSupport = title.querySelectorAll<HTMLElement>('[data-support]')
   const tDeco = title.querySelectorAll<HTMLElement>('[data-deco]')
 
   if (reduce) {
-    gsap.set([chars, mirror, tSupport, tDeco], { opacity: 0 })
+    gsap.set([...chars, mirror, ...tDeco], { opacity: 0 })
     ScrollTrigger.create({
       trigger: title, start: 'top 50%', once: true,
       onEnter: () => {
-        gsap.to([chars, tSupport, tDeco], { opacity: 1, duration: 0.6 })
+        gsap.to([...chars, ...tDeco], { opacity: 1, duration: 0.6 })
         gsap.to(mirror, { opacity: 0.3, duration: 0.6 })
       },
     })
@@ -128,7 +126,6 @@ export function mountFeatured(root: HTMLElement, hero: HeroScene, backdrop: Back
   // once they have landed, their reflection fades in under them. Corners fade only.
   gsap.set(chars, { yPercent: 108 })
   gsap.set(mirror, { opacity: 0 })
-  gsap.set(tSupport, { opacity: 0, y: 14 })
   gsap.set(tDeco, { opacity: 0 })
   ScrollTrigger.create({
     trigger: title,
@@ -137,7 +134,6 @@ export function mountFeatured(root: HTMLElement, hero: HeroScene, backdrop: Back
     onEnter: () => {
       gsap.timeline()
         .to(chars, { yPercent: 0, duration: 1.3, ease: 'expo.out', stagger: { each: 0.045, from: 'center', ease: 'power1.in' } }, 0)
-        .to(tSupport, { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out' }, 0.1)
         .to(mirror, { opacity: 1, duration: 1.4, ease: 'power2.out' }, 0.75)
         .to(tDeco, { opacity: 1, duration: 0.8, ease: 'power1.out' }, 0.7)
     },

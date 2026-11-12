@@ -46,7 +46,6 @@ export function mountIntro(root: HTMLElement, hero: HeroScene) {
       <p class="ch1-corner tl t-caps" data-deco>Chapter I<br>of III</p>
       <p class="ch1-corner tr t-caps" data-deco>Introduction</p>
       <div class="ch1-head">
-        <p class="ch1-kicker t-caps" data-support><i class="rule"></i>Chapter I<i class="rule"></i></p>
         <h2 id="ch1-h" class="ch1-word t-secondary" aria-label="Signal">${title}</h2>
       </div>
       <p class="ch1-corner bl t-caps" data-deco>Chennai,<br>Tamil Nadu</p>
@@ -58,7 +57,7 @@ export function mountIntro(root: HTMLElement, hero: HeroScene) {
         <p class="ch1-statement t-secondary">${words}</p>
         <ul class="ch1-signals" role="list">
           ${SIGNALS.map(
-            (s) => `<li><span class="t-caps num">${s.k}</span><h3 class="t-caps">${s.h}</h3><p>${s.p}</p></li>`,
+            (s) => `<li><h3 class="t-caps">${s.h}</h3><p>${s.p}</p></li>`,
           ).join('')}
         </ul>
       </div>
@@ -67,7 +66,6 @@ export function mountIntro(root: HTMLElement, hero: HeroScene) {
   root.appendChild(el)
 
   const tubes = el.querySelectorAll<HTMLElement>('.tube')
-  const support = el.querySelectorAll<HTMLElement>('[data-support]')
   const deco = el.querySelectorAll<HTMLElement>('[data-deco]')
   const wordEls = el.querySelectorAll<HTMLElement>('.w')
   const signals = el.querySelector<HTMLElement>('.ch1-signals')!
@@ -89,18 +87,17 @@ export function mountIntro(root: HTMLElement, hero: HeroScene) {
 
   // ---------- title: the word switches on like neon ----------
   // Lead: "Signal" tubes, irregular ignition (not a uniform stagger).
-  // Support: kicker, with the first tube. Decoration: corners fade only.
+  // Decoration: corners fade only (the corner labels carry the chapter name).
   if (reduce) {
-    gsap.set([tubes, support, deco], { opacity: 0 })
+    gsap.set([...tubes, ...deco], { opacity: 0 })
     ScrollTrigger.create({
       trigger: el.querySelector('.ch1-title'),
       start: 'top 55%',
       once: true,
-      onEnter: () => gsap.to([tubes, support, deco], { opacity: 1, duration: 0.6, ease: 'power1.out' }),
+      onEnter: () => gsap.to([...tubes, ...deco], { opacity: 1, duration: 0.6, ease: 'power1.out' }),
     })
   } else {
     tubes.forEach((t) => t.classList.add('off'))
-    gsap.set(support, { opacity: 0, y: 14 })
     gsap.set(deco, { opacity: 0 })
     // ignition order and timing by hand: S first, then a, l, i, g, n
     const ignite = [0, 0.42, 0.3, 0.55, 0.12, 0.22]
@@ -114,7 +111,6 @@ export function mountIntro(root: HTMLElement, hero: HeroScene) {
           t.classList.remove('off')
           t.classList.add('on')
         })
-        gsap.to(support, { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out', delay: 0.05 })
         gsap.to(deco, { opacity: 1, duration: 0.8, ease: 'power1.out', delay: 0.6 })
       },
     })

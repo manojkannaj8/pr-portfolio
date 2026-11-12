@@ -26,12 +26,11 @@ export function mountEducation(root: HTMLElement, hero: HeroScene, backdrop: Bac
 
       <div class="ch2-grid">
         <div class="ch2-school">
-          <h2 id="ch2-h" class="t-caps ch2-kicker" data-support>Education</h2>
-          <p class="ch2-name t-secondary">
+          <h2 id="ch2-h" class="ch2-name t-secondary"><span class="sr-only">Education: </span>
             <span class="line"><span class="in">SRM Institute of</span></span>
             <span class="line"><span class="in">Science and Technology,</span></span>
             <span class="line"><span class="in">Ramapuram</span></span>
-          </p>
+          </h2>
           <p class="ch2-degree" data-support>B.Tech in Computer Science and Engineering</p>
         </div>
 
@@ -67,7 +66,7 @@ export function mountEducation(root: HTMLElement, hero: HeroScene, backdrop: Bac
 
   // ---------- content ----------
   // Lead: the school name lines + the 9.26 figure (one beat).
-  // Support: kicker, degree, labels. Decoration: corners (fade only). Coursework: rules draw, names follow.
+  // Support: degree, labels. Decoration: corners (fade only). Coursework: rules draw, names follow.
   const lines = el.querySelectorAll<HTMLElement>('.ch2-name .in')
   const num = el.querySelector<HTMLElement>('.ch2-num .in')!
   const support = el.querySelectorAll<HTMLElement>('[data-support]')

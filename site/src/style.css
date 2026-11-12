@@ -145,8 +145,6 @@ body {
 .ch1-corner.br { bottom: clamp(16px, 2.4vw, 32px); right: clamp(16px, 2.2vw, 36px); text-align: right; }
 
 .ch1-head { display: grid; justify-items: center; will-change: transform; }
-.ch1-kicker { display: flex; align-items: center; gap: 14px; margin: 0 0 clamp(4px, 1svh, 14px); letter-spacing: .2em; }
-.ch1-kicker .rule { display: block; width: clamp(32px, 6vw, 96px); height: 1px; background: rgba(255, 217, 207, .55); }
 
 /* the word, as large as the screen allows */
 .ch1-word {
@@ -192,7 +190,6 @@ body {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px);
 }
 .ch1-signals li { border-top: 1px solid rgba(255, 217, 207, .4); padding-top: 16px; display: grid; gap: 8px; align-content: start; }
-.ch1-signals .num { color: var(--r-glow); opacity: 1; }
 .ch1-signals h3 { margin: 0; font-size: clamp(12px, 1vw, 15px); letter-spacing: .14em; }
 .ch1-signals p { margin: 0; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.5; color: rgba(255, 233, 226, .86); max-width: 38ch; }
 
@@ -237,7 +234,6 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch2-corner.tr { top: clamp(16px, 2.4vw, 32px); right: clamp(16px, 2.2vw, 36px); text-align: right; }
 
 .ch2-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
-.ch2-kicker { margin: 0 0 clamp(12px, 2svh, 24px); color: var(--r-glow); letter-spacing: .2em; font-size: clamp(11px, .9vw, 14px); }
 .ch2-name { margin: 0; font-weight: 300; font-size: clamp(40px, 5.6vw, 96px); line-height: 1.02; letter-spacing: -.01em; color: #fff1ec; }
 .ch2-name .line { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
 .ch2-name .in, .ch2-num .in { display: inline-block; will-change: transform; }
@@ -277,7 +273,6 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch3-corner { position: absolute; margin: 0; }
 .ch3-corner.tl { top: clamp(16px, 2.4vw, 32px); left: clamp(16px, 2.2vw, 36px); }
 .ch3-corner.tr { top: clamp(16px, 2.4vw, 32px); right: clamp(16px, 2.2vw, 36px); text-align: right; }
-.ch3-kicker { margin: 0 0 clamp(10px, 1.6svh, 20px); color: var(--r-glow); letter-spacing: .2em; font-size: clamp(11px, .9vw, 14px); font-weight: 600; }
 
 /* Experience: one screen, full photograph */
 .ch3-exp {
@@ -464,8 +459,6 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 /* chapter title: the word stands in the sky, its reflection lies under it like the city's */
 .ch4-title { height: 100svh; display: grid; place-items: center; overflow: hidden; }
 .ch4-head { display: grid; justify-items: center; will-change: transform; }
-.ch4-kicker { display: flex; align-items: center; gap: 14px; margin: 0 0 clamp(4px, 1svh, 14px); letter-spacing: .2em; }
-.ch4-kicker .rule { display: block; width: clamp(32px, 6vw, 96px); height: 1px; background: rgba(255, 230, 194, .55); }
 .ch4-word, .ch4-mirror {
   margin: 0; font-weight: 100; white-space: nowrap;
   font-size: min(27vw, 43svh); line-height: .9; letter-spacing: -.02em;
@@ -643,7 +636,6 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .cr-panel { margin: 0; min-height: 2.9em; font-size: clamp(13px, 1vw, 16px); line-height: 1.45; color: rgba(255, 240, 220, .9); }
 
 /* browser surfaces in the gold chapter */
-.ch4 ::selection { background: rgba(245, 142, 18, .45); color: #fff; }
 
 @media (max-width: 1100px) and (min-width: 821px) {
   .ch4-proj { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); }
@@ -665,4 +657,35 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .ch4-mirror { animation: none; }
   .argo-console.busy .argo-you .caret, .argo-status li.on i, .argo-plot .iso, .argo-plot .ping { animation: none !important; }
+}
+
+/* ---------------------------------------------------------------
+   Browser surfaces (design-skills pass): the parts the browser draws
+   carry the chapter palette too.
+   --------------------------------------------------------------- */
+html { scrollbar-color: rgba(232, 145, 53, .55) #0d0807; scrollbar-width: thin; caret-color: var(--glow); }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0d0807; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--core), var(--glow)); border: 3px solid #0d0807; }
+
+/* text selection follows the chapter in view */
+::selection { background: rgba(228, 46, 8, .45); color: #fff; }
+.ch1 ::selection, .ch2 ::selection, .ch3 ::selection { background: rgba(233, 93, 70, .45); color: #fff; }
+.ch4 ::selection { background: rgba(245, 142, 18, .45); color: #fff; }
+
+/* one focus ring for anything that has not drawn its own */
+:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+.ch1 :focus-visible, .ch2 :focus-visible, .ch3 :focus-visible { outline-color: #ffb05a; }
+.ch4 :focus-visible { outline-color: #f58e12; }
+
+/* type: headings balance their lines, paragraphs never strand one word */
+h1, h2, h3 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+/* figures line up and never jitter while they animate */
+.ch2-num, .pl-score b, .cr-mark b, .ch3-metric dd { font-variant-numeric: lining-nums tabular-nums; }
+
+/* touch: every control is at least 44px tall on coarse pointers */
+@media (pointer: coarse) {
+  .cr-tabs button, .argo-q, .pl-step, .cr-part { min-height: 44px; }
+  .cr-tabs button { display: inline-flex; align-items: center; }
 }

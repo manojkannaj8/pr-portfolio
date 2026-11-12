@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (Chapter I complete, Chapter II opened). Next: Section 05 More work**
+Last updated: 2026-11-13 · Stage: **Branch `skills-polish`: design-skills pass over Sections 00–04, waiting for client review (approve = merge into `main`, reject = delete the branch).**
 
 ---
 
@@ -426,6 +426,20 @@ Rebuild (files `site/src/sections/work/argo.ts`, `site/src/sections/work/credit.
 
 Verified at 1536x730 (each screen fits) and 375 phone (no sideways scroll); all three ARGO runs, tabs and diagram parts exercised with no errors; impeccable detector clean; types clean. Not verified: typing, drawing and loop timing at real speed (hidden preview pane).
 
-## 14. Exact next step
+## 14. Design-skills pass over Sections 00–04 (branch `skills-polish`, Opus 5.5)
+
+Client request 2026-11-13: "give my skills touches to previous made sections in a new branch; I will approve or revert". Skills used: impeccable (craft floor + critique + detector, clean before and after), ui-ux-pro-max (touch-target and interaction rules), DESIGN.md rules.
+
+Changes:
+- **Eyebrows removed** (impeccable bans a label above a heading; the corner labels already carry the chapter and section): "Chapter I" over Signal, "Chapter II" over Reflection, "Education", "Experience", "Research", "The model". Where the eyebrow was the heading, the real heading now is: the school name is the Education h2 and "Logic Play Technical Club" the Experience h2, each with a screen-reader-only prefix ("Education:", "Experience:", "Research:") so the outline still reads correctly.
+- **Meaningless numbers removed:** 01/02/03 on the Chapter I signals. HIEN's pipeline step numbers stay (the order means something).
+- **Browser surfaces themed:** text selection colour per chapter, thin themed scrollbar (red-to-amber thumb), caret colour, one consistent focus ring per chapter for anything without its own.
+- **Type:** headings balance their lines (`text-wrap: balance`), paragraphs avoid orphaned last words (`text-wrap: pretty`), figures use lining tabular numerals.
+- **Touch:** tabs, question buttons and diagram steps are at least 44px tall on coarse pointers.
+- The hero is unchanged apart from the browser surfaces (it was approved as "perfect").
+
+Verified at 1536x730: every touched screen still fits, heading outline correct, no errors; detector clean.
+
+## 15. Exact next step
 
 Client reviews Section 04 round 2 at http://localhost:5173 (scroll past the HIEN diagram). Apply changes, wait for approval. Then **Section 05 More work** (image `gold-silhouette`, last gold section; regular model is fine): index of four projects: AI Critical Health Predictor (Python, Streamlit), Exam Scheduler (Python, HTML), Multi-Vendor E-Commerce System (Python, SQL, Streamlit), Path Finder (Java, HTML). Add it with `backdrop.add({ from: 'gold-reflections', to: 'gold-silhouette', ... })`.

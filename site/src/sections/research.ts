@@ -126,11 +126,10 @@ export function mountResearch(root: HTMLElement, hero: HeroScene, backdrop: Back
       <p class="ch3-corner tl t-caps" data-deco>Chapter I<br>03 · Experience</p>
       <p class="ch3-corner tr t-caps" data-deco>2026</p>
       <div class="ch3-exp-head">
-        <h2 id="ch3-exp-h" class="t-caps ch3-kicker" data-support>Experience</h2>
-        <p class="ch3-club t-secondary">
+        <h2 id="ch3-exp-h" class="ch3-club t-secondary"><span class="sr-only">Experience: </span>
           <span class="line"><span class="in">Logic Play</span></span>
           <span class="line"><span class="in">Technical Club</span></span>
-        </p>
+        </h2>
         <p class="ch3-role t-caps" data-support>Technical Team Member · 2026</p>
       </div>
       <div class="ch3-exp-body">
@@ -144,8 +143,7 @@ export function mountResearch(root: HTMLElement, hero: HeroScene, backdrop: Back
       <p class="ch3-corner tl t-caps" data-deco>Chapter I<br>03 · Research</p>
       <p class="ch3-corner tr t-caps" data-deco>2026<br>Research project</p>
       <div class="ch3-res-head">
-        <p class="t-caps ch3-kicker" data-support>Research</p>
-        <h2 id="ch3-res-h" class="ch3-hien t-display"><span class="in">HIEN</span></h2>
+        <h2 id="ch3-res-h" class="ch3-hien t-display"><span class="sr-only">Research: </span><span class="in">HIEN</span></h2>
         <p class="ch3-title t-secondary" data-support>Interpretable Emotional Influence Modelling in Multi-Party Conversations</p>
       </div>
       <div class="ch3-res-side">
@@ -160,7 +158,6 @@ export function mountResearch(root: HTMLElement, hero: HeroScene, backdrop: Back
     <section class="ch3-model" aria-labelledby="ch3-model-h">
       <p class="ch3-corner tl t-caps" data-deco>Chapter I<br>03 · Research</p>
       <div class="ch3-model-head">
-        <p class="t-caps ch3-kicker" data-support>The model</p>
         <h3 id="ch3-model-h" class="ch3-model-h t-secondary" data-support>How HIEN works</h3>
       </div>
       ${pipelineHTML()}
