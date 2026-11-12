@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (Chapter I complete, Chapter II opened). Next: Section 05 More work**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 (More work) built on branch `section-05` — waiting for client review. Skill-touch pass on Sections 00–04 on branch `skills-polish` — waiting for client review.**
 
 ---
 
@@ -190,7 +190,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 02 | Education | **Approved** | Opus 5.5 | Approved first round | — |
 | 03 | Experience & Research | **Approved (round 2)** | Opus 5.5 | R1: make the red cuboids move; HIEN diagram broken, texts overlapping, make it proper and interactive | Shader beams animation; HIEN split into title screen + interactive pipeline diagram; reel clip fix |
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
-| 05 | More work | Planned | — | — | — |
+| 05 | More work (branch `section-05`) | **Waiting for review** | Opus 5.5 | — | — |
 | 06 | Toolkit | Planned | — | — | — |
 | 07 | Contact / finale | Planned | — | — | — |
 | — | Final polish | Planned | — | — | — |
@@ -426,6 +426,32 @@ Rebuild (files `site/src/sections/work/argo.ts`, `site/src/sections/work/credit.
 
 Verified at 1536x730 (each screen fits) and 375 phone (no sideways scroll); all three ARGO runs, tabs and diagram parts exercised with no errors; impeccable detector clean; types clean. Not verified: typing, drawing and loop timing at real speed (hidden preview pane).
 
-## 14. Exact next step
+## 14. Section 05 · Chapter II · More work (built, Opus 5.5, branch `section-05`)
 
-Client reviews Section 04 round 2 at http://localhost:5173 (scroll past the HIEN diagram). Apply changes, wait for approval. Then **Section 05 More work** (image `gold-silhouette`, last gold section; regular model is fine): index of four projects: AI Critical Health Predictor (Python, Streamlit), Exam Scheduler (Python, HTML), Multi-Vendor E-Commerce System (Python, SQL, Streamlit), Path Finder (Java, HTML). Add it with `backdrop.add({ from: 'gold-reflections', to: 'gold-silhouette', ... })`.
+Files: `site/src/sections/more.ts`, `site/src/sections/work/minis.ts`, Section 05 block at the end of `site/src/style.css`, mounted in `main.ts` after Section 04. Skills used: impeccable (DESIGN.md rules, detector clean), ui-ux-pro-max, taste-skill, animate, choreograph.
+
+Transition gold-reflections -> gold-silhouette: **dusk bloom** (`uMode = 3`, style `'dusk'`). The silhouette photograph opens outward from its burning horizon band (about 60% up the frame), up and down at once, with a hot orange edge and a heat shimmer that settles.
+
+Screen (100svh; the photograph leads, the figure stays visible: only the left side and the floor are shaded):
+- Left: "More work" (Charlton Thin) and an index of the four CV projects, each a button with its name, tools and the CV sentence: AI Critical Health Predictor; Exam Scheduler; Multi-Vendor E-Commerce System; Path Finder.
+- Choosing a project slides an instrument plate in from the right with a working demo of its mechanism (Esc or the close button hides it and returns focus):
+  - **Path Finder:** a small illustrative park map; Dijkstra's algorithm really runs: nodes light in its real visiting order, then the shortest path and its distance light up. Click or keyboard any node to route from the Gate.
+  - **Exam Scheduler:** seven illustrative exams (Exam A–G) with conflicts; "Generate timetable" places them most-constrained first into the first slot none of their conflicts use (greedy colouring, FLIP moves). Pointing at an exam lights the exams it clashes with.
+  - **Multi-Vendor E-Commerce:** an example relational schema (vendors, products, customers, orders, order_items); pointing at a table lights its joins.
+  - **AI Critical Health Predictor:** a sketch of a Streamlit risk-prediction dashboard (inputs, model, risk, charts) whose parts explain themselves.
+  - Every demo carries an on-screen note saying it is an illustration, not her code or data.
+- Phones: the demo opens inside the chosen list item.
+- Reduced motion: final states, no FLIP, no frontier animation.
+
+Verified at 1536x730 (fits one screen with any demo open) and 375 phone (no sideways scroll), all four demos opened with no errors, Dijkstra route Gate -> B -> C -> F -> H (13), timetable 3 slots with no clashes. Not verified: motion at real speed.
+
+## 15. Exact next step
+
+Git: repo https://github.com/manojkannaj8/pr-portfolio (public). `main` = approved state (hero, comet, Sections 01–04). The CV PDF (phone number) and `charlton.zip` are git-ignored and must stay out of the repo.
+
+Client reviews two branches:
+1. `section-05`: Section 05 More work. On approval, merge into `main`.
+2. `skills-polish`: the design-skills pass over Sections 00–04 (see its notes). On approval, merge into `main`; if not, delete the branch.
+Both branches touch `style.css` and `updates.md`; merge one, then rebase or merge the other and resolve.
+
+Then **Section 06 Toolkit** (image `cool-fog`, opens Chapter III, carries the **gold -> cool chapter transition**: use **Fable 5.2** for the transition), with `comet.setPalette('cool')`.

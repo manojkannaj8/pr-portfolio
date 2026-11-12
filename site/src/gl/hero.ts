@@ -22,7 +22,7 @@ uniform sampler2D uTex;
 uniform sampler2D uNext;   // chapter image A (current)
 uniform sampler2D uNextB;  // chapter image B (incoming)
 uniform float uBlend;      // 0 = A, 1 = B: transition between chapter images
-uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water
+uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = dusk bloom
 uniform float uFxA;        // 1 when slot A holds the red-grid photo (animated beams)
 uniform float uFxB;        // same for slot B
 uniform vec2 uRes;
@@ -224,7 +224,7 @@ void main() {
     nx = mix(nx, nb, m)
        + vec3(1.0, 0.55, 0.22) * ring * 0.9                 // amber opening edge (the LED column)
        + vec3(1.0, 0.16, 0.08) * line * run * 0.32;         // red grid lines while the tiles turn
-  } else if (uBlend > 0.0) {
+  } else if (uBlend > 0.0 && uMode < 2.5) {
     // rising water (chapter change, red -> gold): the next photograph comes up from the bottom
     // like a tide. The waterline rolls with a slow swell, B ripples just under the surface and
     // calms with depth, a gold glint rides the line, and the old photograph warms toward gold
@@ -247,6 +247,20 @@ void main() {
     float glint = exp(-abs(d) * 110.0) * (0.55 + 0.45 * sin(vUv.x * 160.0 + uTime * 3.0)) * settle;
     float glow = exp(-abs(d) * 14.0) * 0.22 * settle;
     nx = mix(nx, nb, m) + vec3(1.0, 0.74, 0.32) * (glint * 0.9 + glow);
+  } else if (uBlend > 0.0) {
+    // dusk bloom (gold -> gold, into the silhouette): the incoming photograph opens outward from
+    // its burning horizon band, up and down at once, with a hot orange edge and a heat shimmer
+    // that settles. The silhouette photo's horizon sits about 60% up the frame.
+    float hz = 0.6;
+    float shimmer = (noise2(vec2(vUv.x * 14.0, uTime * 0.7)) - 0.5) * 0.05 * uMotion;
+    float reach = uBlend * 1.25 - abs(vUv.y - hz) * 1.6 + shimmer + (noise1(vUv.x * 6.0 + 3.0) - 0.5) * 0.12;
+    float m = smoothstep(0.0, 0.08, reach);
+    float settle = 1.0 - smoothstep(0.85, 1.0, uBlend);
+    vec2 bp = np + vec2(0.0, shimmer * 0.12 * settle);
+    vec3 nb = sharpSample(uNextB, clamp(bp, 0.0, 1.0));
+    if (uFxB > 0.5) nb = beams(uNextB, clamp(bp, 0.0, 1.0), nb);
+    float edge = exp(-abs(reach - 0.02) * 40.0) * settle;
+    nx = mix(nx, nb, m) + vec3(1.0, 0.45, 0.08) * edge * 0.7;
   }
   nx *= uNextBright;
   float burn = uExit * 1.7 - colRand * 0.32 - nSlow * 0.22 - (1.0 - vUv.y) * 0.38;

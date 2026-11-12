@@ -11,6 +11,7 @@ import { mountIntro } from './sections/intro'
 import { mountEducation } from './sections/education'
 import { mountResearch } from './sections/research'
 import { mountFeatured } from './sections/featured'
+import { mountMore } from './sections/more'
 import { createBackdrop } from './gl/backdrop'
 import { createComet } from './fx/comet'
 
@@ -35,6 +36,7 @@ document.fonts.ready.then(() => {
   mountEducation(app, hero, backdrop)
   mountResearch(app, hero, backdrop)
   mountFeatured(app, hero, backdrop)
+  mountMore(app, hero, backdrop)
 
   // cursor comet: palette follows the chapter in view
   const comet = createComet()
