@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 (More work) built on branch `section-05` — waiting for client review. Skill-touch pass on Sections 00–04 on branch `skills-polish` — waiting for client review.**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 on branch `section-05`, client reviewing for changes. Skills-polish pass rejected (not merged).**
 
 ---
 
@@ -449,9 +449,8 @@ Verified at 1536x730 (fits one screen with any demo open) and 375 phone (no side
 
 Git: repo https://github.com/manojkannaj8/pr-portfolio (public). `main` = approved state (hero, comet, Sections 01–04). The CV PDF (phone number) and `charlton.zip` are git-ignored and must stay out of the repo.
 
-Client reviews two branches:
-1. `section-05`: Section 05 More work. On approval, merge into `main`.
-2. `skills-polish`: the design-skills pass over Sections 00–04 (see its notes). On approval, merge into `main`; if not, delete the branch.
-Both branches touch `style.css` and `updates.md`; merge one, then rebase or merge the other and resolve.
+**Decision 2026-11-13: the client REJECTED the design-skills pass over Sections 00–04** (branch `skills-polish`: eyebrows removed, 01/02/03 removed, themed browser surfaces, text-wrap, 44px touch targets). It is not merged; do not re-apply it to the approved sections unless the client asks. The branch still exists on GitHub (commit 1a7ca00) only because deleting it needs the client's own permission; it can be deleted.
+
+Client is reviewing `section-05` (Section 05 More work) for changes. On approval, merge into `main`.
 
 Then **Section 06 Toolkit** (image `cool-fog`, opens Chapter III, carries the **gold -> cool chapter transition**: use **Fable 5.2** for the transition), with `comet.setPalette('cool')`.
