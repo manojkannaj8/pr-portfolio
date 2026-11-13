@@ -13,6 +13,7 @@ import { mountResearch } from './sections/research'
 import { mountFeatured } from './sections/featured'
 import { mountMore } from './sections/more'
 import { mountToolkit } from './sections/toolkit'
+import { mountContact } from './sections/contact'
 import { createBackdrop } from './gl/backdrop'
 import { createComet } from './fx/comet'
 
@@ -39,6 +40,7 @@ document.fonts.ready.then(() => {
   mountFeatured(app, hero, backdrop)
   mountMore(app, hero, backdrop)
   mountToolkit(app, hero, backdrop)
+  mountContact(app, hero, backdrop)
 
   // cursor comet: palette follows the chapter in view
   const comet = createComet()

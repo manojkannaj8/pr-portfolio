@@ -922,3 +922,109 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 @media (prefers-reduced-motion: reduce) {
   .ch6-skill { transition: none; }
 }
+
+/* ---------------------------------------------------------------
+   Section 07 · Chapter III · Contact (the finale; night ride)
+   --------------------------------------------------------------- */
+.ch7 {
+  --c-blue: #4fb3ff; --c-magenta: #e14bb8; --c-teal: #6fd8d0; --c-hot: #e6ecff; --c-pale: #f4f7ff; --rule: rgba(230, 236, 255, .18);
+  position: relative; z-index: 1; min-height: 100svh; color: var(--c-hot);
+  display: grid; grid-template-rows: 1fr auto;
+  padding: clamp(84px, 12svh, 130px) clamp(16px, 5vw, 96px) clamp(16px, 3svh, 28px);
+}
+.ch7::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(5, 6, 16, .88) 0%, rgba(5, 6, 16, .78) 36%, rgba(5, 6, 16, .3) 54%, rgba(5, 6, 16, 0) 68%),
+    linear-gradient(0deg, rgba(5, 6, 16, .6) 0%, rgba(5, 6, 16, 0) 26%);
+}
+.ch7 ::selection { background: rgba(79, 179, 255, .4); color: #fff; }
+.ch7-corner { position: absolute; margin: 0; }
+.ch7-corner.tl { top: clamp(16px, 2.4vw, 32px); left: clamp(16px, 2.2vw, 36px); }
+.ch7-corner.tr { top: clamp(16px, 2.4vw, 32px); right: clamp(16px, 2.2vw, 36px); text-align: right; }
+
+.ch7-main { align-self: center; max-width: min(680px, 46vw); display: grid; gap: clamp(18px, 3.4svh, 34px); }
+
+/* the signature: the hero lockup, smaller, in the finale's cool light */
+.ch7-sign { --name: min(10vw, 17svh); margin: 0; font-weight: inherit; line-height: 1; display: grid; justify-items: start; }
+.ch7-script {
+  display: block; font-size: var(--name); line-height: 1.05; white-space: nowrap; padding: 0 .12em 0 .02em;
+  transform: rotate(-5deg); transform-origin: left center; color: var(--c-pale);
+  -webkit-text-stroke: max(1px, .011em) var(--c-pale); paint-order: stroke fill;
+  text-shadow: 0 0 34px rgba(79, 179, 255, .55), 0 0 4px rgba(5, 6, 16, .6);
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--p) - 10%), transparent var(--p));
+          mask-image: linear-gradient(90deg, #000 calc(var(--p) - 10%), transparent var(--p));
+}
+.ch7-serif { display: block; margin: -.15em 0 0 .3em; font-size: calc(var(--name) * .5); line-height: 1; letter-spacing: .1em; white-space: nowrap; color: rgba(230, 236, 255, .84); }
+
+/* the two achievements, quiet */
+.ch7-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.ch7-facts li { display: grid; grid-template-columns: 4.4em minmax(0, 1fr); gap: 14px; align-items: baseline; border-top: 1px solid var(--rule); padding-top: 10px; }
+.ch7-facts b { font-weight: inherit; font-size: clamp(22px, 2vw, 32px); line-height: 1; color: var(--c-pale); font-variant-numeric: lining-nums; }
+.ch7-facts b.t-secondary { font-weight: 300; }
+.ch7-facts span { font-size: clamp(13px, 1vw, 16px); line-height: 1.45; color: rgba(230, 236, 255, .78); }
+
+/* the one action: the address itself, under a neon tube that switches on */
+.ch7-cta { display: grid; gap: 14px; }
+.ch7-email {
+  position: relative; justify-self: start; text-decoration: none; color: #fff;
+  font-family: var(--font-ui); font-stretch: 87.5%; font-weight: 500; font-size: clamp(24px, min(2.8vw, 5.6svh), 48px); line-height: 1.2; letter-spacing: -.01em;
+  padding-bottom: 10px; overflow-wrap: anywhere;
+}
+.ch7-email:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 6px; }
+.ch7-tube {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--c-blue), var(--c-magenta));
+  opacity: .12; transform-origin: left; transition: transform .35s cubic-bezier(.23, 1, .32, 1), box-shadow .35s ease;
+}
+.ch7-tube.on { animation: ch7-tube 1s steps(1, end) both; }
+.ch7.lit .ch7-tube { opacity: 1; box-shadow: 0 0 10px rgba(79, 179, 255, .8), 0 0 22px rgba(225, 75, 184, .5); }
+@keyframes ch7-tube {
+  0% { opacity: .12; } 10% { opacity: 1; } 16% { opacity: .2; } 32% { opacity: .95; } 38% { opacity: .35; } 52% { opacity: 1; }
+  100% { opacity: 1; box-shadow: 0 0 10px rgba(79, 179, 255, .8), 0 0 22px rgba(225, 75, 184, .5); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .ch7-email:hover .ch7-tube { box-shadow: 0 0 14px rgba(79, 179, 255, 1), 0 0 34px rgba(225, 75, 184, .8); }
+}
+
+.ch7-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.ch7-btn {
+  all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  font: 600 12px var(--font-ui); font-stretch: 62%; letter-spacing: .16em; text-transform: uppercase; color: var(--c-pale);
+  border: 1px solid rgba(230, 236, 255, .35); transition: border-color .2s ease, background-color .2s ease, transform .15s ease;
+}
+.ch7-btn.primary { color: #05060f; background: var(--c-pale); border-color: var(--c-pale); }
+@media (hover: hover) and (pointer: fine) {
+  .ch7-btn:hover { border-color: var(--c-blue); }
+  .ch7-btn.primary:hover { background: #fff; box-shadow: 0 0 22px rgba(79, 179, 255, .55); }
+}
+.ch7-btn:active { transform: translateY(1px); }
+.ch7-btn:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+.ch7-copy.done { border-color: var(--c-teal); color: #fff; }
+.ch7-copied { font-size: 13px; color: var(--c-teal); min-width: 4em; }
+
+/* secondary: the three profiles */
+.ch7-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.ch7-links a { display: inline-flex; align-items: baseline; gap: 10px; min-height: 44px; align-items: center; text-decoration: none; color: var(--c-hot); }
+.ch7-links .t-caps { letter-spacing: .16em; color: var(--c-blue); }
+.ch7-link-t { font-size: clamp(14px, 1.05vw, 17px); background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .3s cubic-bezier(.23, 1, .32, 1); padding-bottom: 2px; }
+.ch7-links svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .25s cubic-bezier(.23, 1, .32, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .ch7-links a:hover .ch7-link-t { background-size: 100% 1px; }
+  .ch7-links a:hover svg { transform: translate(2px, -2px); }
+}
+.ch7-links a:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+
+.ch7-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid var(--rule); color: rgba(230, 236, 255, .6); letter-spacing: .14em; }
+
+@media (max-width: 820px) {
+  .ch7 { padding-top: clamp(96px, 16svh, 130px); }
+  .ch7::before { background: linear-gradient(0deg, rgba(5, 6, 16, .88) 0%, rgba(5, 6, 16, .7) 60%, rgba(5, 6, 16, .35) 100%); }
+  .ch7-main { max-width: none; align-self: end; }
+  .ch7-sign { --name: 22vw; }
+  .ch7-email { font-size: 22px; min-height: 44px; display: inline-flex; align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ch7-tube.on { animation: none; }
+}

@@ -22,8 +22,8 @@ uniform sampler2D uTex;
 uniform sampler2D uNext;   // chapter image A (current)
 uniform sampler2D uNextB;  // chapter image B (incoming)
 uniform float uBlend;      // 0 = A, 1 = B: transition between chapter images
-uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = rush into the street, 4 = fog rolls in
-uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon, 3 fog skyline
+uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = rush into the street, 4 = fog rolls in, 5 = light painting
+uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon, 3 fog skyline, 4 night ride
 uniform float uFxB;        // same for slot B
 uniform vec2 uRes;
 uniform float uTexAspect;
@@ -145,7 +145,32 @@ vec3 fogSky(sampler2D t, vec2 uv, vec3 c) {
   return c;
 }
 
+// ---- night ride photo (Section 07, the finale) ----
+vec3 nightRide(sampler2D t, vec2 uv, vec3 c) {
+  float road = 1.0 - smoothstep(0.3, 0.37, uv.y);          // the wet street, bottom third
+  // 1. the wet road's reflections shimmer (sampled through a fine horizontal ripple)
+  if (road > 0.0) {
+    vec2 wu = uv + vec2(sin(uv.y * 300.0 + uTime * 1.7) * 0.0012 + sin(uv.x * 40.0 - uTime * 0.8) * 0.0006, 0.0) * uMotion;
+    c = mix(c, texture2D(t, clamp(wu, 0.0, 1.0)).rgb, road);
+  }
+  // 2. the blue and magenta tubes breathe, band by band
+  float cool = smoothstep(0.1, 0.35, c.b - c.g) * smoothstep(0.3, 0.6, c.b);
+  float band = floor(uv.x * 12.0);
+  c *= 1.0 + cool * 0.08 * sin(uTime * 0.9 + band * 1.7) * uMotion;
+  // 3. a light drizzle, leaning with the pointer's movement
+  float lean = clamp(uVel.x, -1.0, 1.0) * 0.35;
+  vec2 rq = vec2((uv.x + uv.y * (0.08 + lean)) * 170.0, uv.y * 6.0 + uTime * 2.6);
+  float col = floor(rq.x);
+  float drop = step(0.93, hash(col)) * smoothstep(0.85, 1.0, fract(rq.y + hash(col + 3.0) * 10.0));
+  c += vec3(0.75, 0.85, 1.0) * drop * 0.06 * uMotion;
+  // 4. the pointer is a light: its reflection glows softly in the wet road beneath it
+  vec2 pd = (vUv - vec2(uMouse.x, min(uMouse.y, 0.3))) * vec2(uRes.x / uRes.y * 0.6, 2.2);
+  c += vec3(0.42, 0.55, 1.0) * exp(-dot(pd, pd) / 0.02) * road * 0.18 * uBend * uMotion;
+  return c;
+}
+
 vec3 live(sampler2D t, vec2 uv, vec3 c, float fx) {
+  if (fx > 3.5) return nightRide(t, uv, c);
   if (fx > 2.5) return fogSky(t, uv, c);
   if (fx > 1.5) return canyon(uv, c);
   return beams(t, uv, c);
@@ -346,7 +371,7 @@ void main() {
     vec3 neonTint = mix(vec3(1.0, 0.2, 0.12), vec3(0.18, 0.95, 0.85), 0.5 + 0.5 * sin(ang * 5.0 + uTime * 1.2));
     float edge = exp(-abs(front - 0.03) * 34.0) * (1.0 - smoothstep(0.8, 1.0, e));
     nx = mix(sa, sb, m) + neonTint * edge * 0.6;
-  } else if (uBlend > 0.0) {
+  } else if (uBlend > 0.0 && uMode < 4.5) {
     // fog rolls in (gold -> cool: Chapter II -> Chapter III "Clarity"). Drifting fog comes in off
     // the river and swallows the neon canyon, cooling it as it thickens; when it thins again it
     // is the new skyline that shows, first through the clearings, then everywhere.
@@ -368,6 +393,33 @@ void main() {
     // fog: teal-grey, lit from within by whatever burns behind it
     vec3 fogC = mix(FOG * 0.42, FOG * 1.45, smoothstep(0.2, 0.85, f)) + base * 0.3;   // billows: light and dark
     nx = mix(base, fogC, veil * 0.97);
+  } else if (uBlend > 0.0) {
+    // light painting (Section 06 -> the finale). One last long exposure: a beam of light, like a
+    // bike's headlamp dragged across an open shutter, sweeps over the fog skyline; behind it the
+    // wet neon street is left exposed, motion-streaked at first, then still. The beam runs blue to
+    // magenta like the street's signs and lights the fog just ahead of itself.
+    float e = uBlend;
+    float ease = e * e * (3.0 - 2.0 * e);
+    float pos = mix(-0.2, 1.25, ease) + (vUv.y - 0.5) * 0.14;   // leaning, like motion
+    float d = vUv.x - pos;                                      // < 0: already painted
+    float m = smoothstep(0.012, -0.012, d);
+    // behind the beam: the street, streaked horizontally, the streak shortening as it settles
+    float kb = 0.06 * exp(min(d, 0.0) * 6.0) * (1.0 - smoothstep(0.75, 1.0, e)) * uMotion;
+    float jit = hash2(gl_FragCoord.xy + fract(uTime) * 13.0);
+    vec3 sb = vec3(0.0);
+    for (int i = 0; i < 8; i++) {
+      float f = (float(i) + jit) / 8.0;
+      sb += texture2D(uNextB, clamp(np + vec2(kb * f, 0.0), 0.0, 1.0)).rgb;
+    }
+    sb /= 8.0;
+    sb = mix(sb, sharpSample(uNextB, clamp(np, 0.0, 1.0)), smoothstep(0.85, 1.0, e));
+    if (uFxB > 0.5) sb = live(uNextB, clamp(np, 0.0, 1.0), sb, uFxB);
+    // ahead of the beam the fog catches its light
+    vec3 ahead = nx * (1.0 + 0.35 * exp(-max(d, 0.0) * 9.0));
+    vec3 beamC = mix(vec3(0.35, 0.6, 1.0), vec3(1.0, 0.3, 0.85), smoothstep(0.15, 0.85, vUv.y));
+    float fade = 1.0 - smoothstep(0.9, 1.0, e);
+    float core = exp(-abs(d) * 90.0), halo = exp(-abs(d) * 14.0);
+    nx = mix(ahead, sb, m) + (vec3(1.0) * core * 0.9 + beamC * (core * 0.6 + halo * 0.35)) * fade;
   }
   nx *= uNextBright;
   float burn = uExit * 1.7 - colRand * 0.32 - nSlow * 0.22 - (1.0 - vUv.y) * 0.38;

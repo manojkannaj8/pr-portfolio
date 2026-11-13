@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–06 approved, merged into `main`. Next: Section 07 Contact / finale.**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–06 approved (on `main`). Section 07 (Contact / finale) built on branch `section-07` — waiting for client review. Then the final polish pass.**
 
 ---
 
@@ -498,8 +498,27 @@ Also fixed (affects approved Section 05): the Exam Scheduler demo threw errors i
 
 Verified at 1536x730 (fog transition at 30/50/75%, title, toolkit fits one screen, SHAP evidence + related skills) and 375 phone (no sideways scroll, sticky evidence panel); no console or shader errors; impeccable detector clean. Not verified: fog drift, clarity-under-the-pointer and the title condensing at real speed.
 
-## 16. Exact next step
+## 16. Section 07 · Chapter III · Contact / finale (built, Opus 5.5, branch `section-07`)
 
-Section 06 approved 2026-11-13 and merged into `main`.
+Files: `site/src/sections/contact.ts`, Section 07 block at the end of `site/src/style.css`, mounted in `main.ts` after Section 06. Palette on `.ch7`: blue `#4fb3ff`, magenta `#e14bb8`, teal `#6fd8d0`, hot `#e6ecff`.
 
-Then **Section 07 Contact / finale** (image `cool-hongkong`, last section, own branch `section-07`): achievements recap (CGPA 9.26/10; HIEN research paper) and contact: **email pragyareddy103@gmail.com**, GitHub, LinkedIn, LeetCode (links in section 2). **Never the phone number.** Then the final polish pass (Fable recommended).
+**Transition fog skyline -> night ride: "light painting"** (`uMode = 5`, style `'sweep'`, scrubbed `.ch7` `top bottom` -> `top 10%`): one last long exposure. A leaning beam of light (white core, blue-to-magenta glow, like the street's signs) sweeps left to right across the fog skyline like a bike headlamp dragged across an open shutter; behind it the wet neon street is left exposed, horizontally streaked at first (jittered samples), then still; the fog just ahead of the beam catches its light.
+
+**Live background** (`nightRide()` in hero.ts, live-effect id 4 for `cool-hongkong`): the wet road's reflections shimmer, the blue/magenta tubes breathe band by band, a fine drizzle falls and leans with the pointer's movement, and the pointer is a light whose reflection glows softly in the wet road under it. Off under reduced motion.
+
+Screen (100svh; the cyclist and the street stay vivid on the right, shade only under the text column):
+- **Bookend:** her name returns as a signature, the hero lockup smaller in cool light ("Pragya" in Pinyon Script writing itself on with the same pen mask as the hero, then "Reddy A" in Noto Serif Display).
+- **Achievements (CV):** 9.26 · CGPA out of 10, B.Tech CSE, SRM IST Ramapuram; HIEN · research paper on interpretable emotional-influence modelling in multi-party conversations.
+- **One action:** the address `pragyareddy103@gmail.com` (mailto) under a blue-to-magenta neon tube that switches on with Chapter I's flicker; buttons "Email Pragya" (primary, mailto) and "Copy address" (clipboard API with an execCommand fallback; "Copied" status, or "Copy failed: <address>" so the address is never lost).
+- **Secondary:** GitHub, LinkedIn, LeetCode (CV links, new tab, drawn arrow icons, underline draws on hover).
+- Footer: "Pragya Reddy A" · "AI/ML · B.Tech CSE 2024 — 2028". Corners: "Chapter III / 07 · Contact", "Chennai, Tamil Nadu".
+- **No phone number anywhere** (checked: page text has no 9677 / +91).
+- Phones: everything stacks over a bottom-weighted shade; every link and button is at least 44px tall.
+
+Verified at 1536x730 (sweep mid-way, finale fits one screen) and 375 phone (no sideways scroll); copy works with a real click; no console or shader errors; impeccable detector clean. Not verified: the sweep, drizzle and road reflections at real speed.
+
+## 17. Exact next step
+
+Client reviews Section 07 at http://localhost:5173 (branch `section-07`; scroll to the end). Apply changes, wait for approval, then merge into `main`.
+
+Then the **final polish pass** (Fable 5.2 recommended; on its own branch `polish`): performance (image weight: eight lossless photos of 1.2–2.5 MB; consider lazy-loading later chapters), real-speed motion review, mobile, reduced motion, accessibility, SEO/share tags (title, description, og image), favicon, and a production build check (`npm --prefix site run build`) before deploying to Vercel or Netlify. Note: an earlier design-skills pass over Sections 00–04 was REJECTED by the client; do not re-apply it.
