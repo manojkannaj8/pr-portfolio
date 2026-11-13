@@ -515,6 +515,8 @@ Screen (100svh; the cyclist and the street stay vivid on the right, shade only u
 - **No phone number anywhere** (checked: page text has no 9677 / +91).
 - Phones: everything stacks over a bottom-weighted shade; every link and button is at least 44px tall.
 
+Round 2 (client 2026-11-13: "g and y are broken and open in the name Pragya"): the write-on mask clips to the script element's box and Pinyon's g/y loops hang below it, so their loops were cut. The script now has padding for the swash and the full loops (`.12em .14em .42em .04em`) with matching negative margins; "Reddy A" sits just below the loops. **Any future use of the masked script needs the same room.**
+
 Verified at 1536x730 (sweep mid-way, finale fits one screen) and 375 phone (no sideways scroll); copy works with a real click; no console or shader errors; impeccable detector clean. Not verified: the sweep, drizzle and road reflections at real speed.
 
 ## 17. Exact next step

@@ -930,7 +930,7 @@ html.has-comet, html.has-comet * { cursor: none !important; }
   --c-blue: #4fb3ff; --c-magenta: #e14bb8; --c-teal: #6fd8d0; --c-hot: #e6ecff; --c-pale: #f4f7ff; --rule: rgba(230, 236, 255, .18);
   position: relative; z-index: 1; min-height: 100svh; color: var(--c-hot);
   display: grid; grid-template-rows: 1fr auto;
-  padding: clamp(84px, 12svh, 130px) clamp(16px, 5vw, 96px) clamp(16px, 3svh, 28px);
+  padding: clamp(72px, 10.5svh, 120px) clamp(16px, 5vw, 96px) clamp(16px, 3svh, 28px);
 }
 .ch7::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -948,7 +948,10 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 /* the signature: the hero lockup, smaller, in the finale's cool light */
 .ch7-sign { --name: min(10vw, 17svh); margin: 0; font-weight: inherit; line-height: 1; display: grid; justify-items: start; }
 .ch7-script {
-  display: block; font-size: var(--name); line-height: 1.05; white-space: nowrap; padding: 0 .12em 0 .02em;
+  /* the mask clips to this box, so it must hold Pinyon's swash and the full g/y loops: padding for
+     them, negative margins so the layout does not move */
+  display: block; font-size: var(--name); line-height: 1.05; white-space: nowrap;
+  padding: .12em .14em .42em .04em; margin: -.12em 0 -.42em -.02em;
   transform: rotate(-5deg); transform-origin: left center; color: var(--c-pale);
   -webkit-text-stroke: max(1px, .011em) var(--c-pale); paint-order: stroke fill;
   text-shadow: 0 0 34px rgba(79, 179, 255, .55), 0 0 4px rgba(5, 6, 16, .6);
@@ -956,7 +959,7 @@ html.has-comet, html.has-comet * { cursor: none !important; }
   -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--p) - 10%), transparent var(--p));
           mask-image: linear-gradient(90deg, #000 calc(var(--p) - 10%), transparent var(--p));
 }
-.ch7-serif { display: block; margin: -.15em 0 0 .3em; font-size: calc(var(--name) * .5); line-height: 1; letter-spacing: .1em; white-space: nowrap; color: rgba(230, 236, 255, .84); }
+.ch7-serif { display: block; position: relative; margin: -.02em 0 0 .3em; font-size: calc(var(--name) * .5); line-height: 1; letter-spacing: .1em; white-space: nowrap; color: rgba(230, 236, 255, .84); }
 
 /* the two achievements, quiet */
 .ch7-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
