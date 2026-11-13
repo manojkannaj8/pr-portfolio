@@ -492,6 +492,8 @@ Screens:
 - Phones: rows stack; the evidence panel sticks to the bottom of the screen while tapping.
 - Reduced motion: fades only.
 
+Round 2 (client feedback 2026-11-13: "the font of the skills doesn't suit; some skills light and some plain also doesn't suit"): skills are now set in **Archivo** (`--font-ui`, width 87.5%, weight 450, clamp 16–24px; 17px with 44px tap height on phones) instead of Charlton, and **every skill has the same style** (no brighter/quieter split, legend removed). The evidence panel still says on interaction whether a skill is used in a project on the site or only listed in her CV.
+
 Also fixed (affects approved Section 05): the Exam Scheduler demo threw errors if it was closed or switched while still placing exams; it now stops quietly.
 
 Verified at 1536x730 (fog transition at 30/50/75%, title, toolkit fits one screen, SHAP evidence + related skills) and 375 phone (no sideways scroll, sticky evidence panel); no console or shader errors; impeccable detector clean. Not verified: fog drift, clarity-under-the-pointer and the title condensing at real speed.

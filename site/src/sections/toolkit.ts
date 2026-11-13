@@ -71,14 +71,13 @@ export function mountToolkit(root: HTMLElement, hero: HeroScene, backdrop: Backd
           <ul class="ch6-ev-list" role="list"></ul>
           <p class="ch6-ev-idle">${IDLE}</p>
         </div>
-        <p class="ch6-legend"><i aria-hidden="true"></i>Brighter: used in a project shown on this site</p>
       </div>
       <div class="ch6-groups">
         ${GROUPS.map((g, gi) => `
           <div class="ch6-row" style="--r:${gi}">
             <h4 class="ch6-group t-caps">${g.name}</h4>
             <ul class="ch6-skills" role="list">
-              ${g.skills.map(([s, ps]) => `<li><button type="button" class="ch6-skill${ps.length ? ' used' : ''}" data-p="${ps.join(' ')}">${s}</button></li>`).join('')}
+              ${g.skills.map(([s, ps]) => `<li><button type="button" class="ch6-skill" data-p="${ps.join(' ')}">${s}</button></li>`).join('')}
             </ul>
           </div>`).join('')}
       </div>
@@ -140,7 +139,7 @@ export function mountToolkit(root: HTMLElement, hero: HeroScene, backdrop: Backd
   const chars = title.querySelectorAll<HTMLElement>('.ch .in')
   const deco = el.querySelectorAll<HTMLElement>('[data-deco]')
   const rows = kit.querySelectorAll<HTMLElement>('.ch6-row')
-  const side = kit.querySelectorAll<HTMLElement>('.ch6-h, .ch6-evidence, .ch6-legend')
+  const side = kit.querySelectorAll<HTMLElement>('.ch6-h, .ch6-evidence')
   if (reduce) {
     gsap.set([...chars, ...deco, ...rows, ...side], { opacity: 0 })
     ScrollTrigger.create({ trigger: title, start: 'top 50%', once: true, onEnter: () => gsap.to([...chars, ...title.querySelectorAll('[data-deco]')], { opacity: 1, duration: 0.6 }) })
