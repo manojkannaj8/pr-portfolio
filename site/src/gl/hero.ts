@@ -110,9 +110,17 @@ vec3 canyon(vec2 uv, vec3 c) {
   // 2. tired tubes: now and then one vertical band of neon dips and catches again
   float band = floor(uv.x * 16.0);
   float clock = floor(uTime * 3.0 + hash(band) * 30.0);
-  c *= 1.0 - neon * step(0.968, hash(band * 13.0 + clock)) * 0.45 * uMotion;
+  c *= 1.0 - neon * step(0.935, hash(band * 13.0 + clock)) * 0.6 * uMotion;
+  // ...and sometimes a tube flares as it catches
+  c *= 1.0 + neon * step(0.965, hash(band * 7.0 + clock + 5.0)) * 0.32 * uMotion;
   // 3. the neon field breathes, band by band
-  c *= 1.0 + neon * 0.06 * sin(uTime * 0.8 + band) * uMotion;
+  c *= 1.0 + neon * 0.11 * sin(uTime * 0.8 + band) * uMotion;
+  // 3b. lit windows in the buildings shimmer, each on its own rhythm (half of them)
+  float bldg = 1.0 - road;
+  float lit = smoothstep(0.42, 0.8, luma(c)) * (1.0 - neon) * smoothstep(0.02, 0.18, c.r - c.b) * bldg;
+  vec2 wc = floor(uv * vec2(380.0, 214.0));
+  float wph = hash2(wc + 2.7);
+  c *= 1.0 + lit * step(0.5, wph) * sin(uTime * (0.9 + wph * 2.4) + wph * 50.0) * 0.24 * uMotion;
   // 4. the pointer warms the signs around it
   vec2 pd = (vUv - uMouse) * vec2(uRes.x / uRes.y, 1.0);
   c += c * neon * exp(-dot(pd, pd) / 0.02) * 0.45 * uBend * uMotion;

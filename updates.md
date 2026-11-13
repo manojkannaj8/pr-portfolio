@@ -470,6 +470,8 @@ Feedback: "remove the More work bg image, I don't like it, use a different image
 
 Verified: rush at 35% and 75% (stills), settled screen fits 1536x730 with the index readable, Path Finder demo, phone 375 (no sideways scroll), no shader or console errors, impeccable detector clean. Not verified: the rush, parallax and light pulses at real speed.
 
+Building-light flicker, stronger (client 2026-11-13: "make the light flicker of the background building slightly more dominant"; branch `canyon-flicker`): tired-tube dips about twice as often (threshold 0.968 -> 0.935) and deeper (0.45 -> 0.6), a brief flare as a tube catches (+0.32, rarer), neon breathing 0.06 -> 0.11, and new: lit building windows (warm, bright, non-neon pixels off the road) shimmer on their own rhythm (half of them, ±0.24). All off under reduced motion.
+
 Brand signs in the photo (two Winston cigarette signs, Sony, Hitachi, Zanussi, Eterna): **client decision 2026-11-13: keep the photo as is.** Do not remove or blur them.
 
 ### Image quality fix (2026-11-13, branch `section-05`)
