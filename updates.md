@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–06 approved (on `main`). Section 07 (Contact / finale) built on branch `section-07` — waiting for client review. Then the final polish pass.**
+Last updated: 2026-11-13 · Stage: **All sections (hero, 01–07) approved and merged into `main`. Next: the final polish pass.**
 
 ---
 
@@ -192,7 +192,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
 | 05 | More work | **Approved (round 3)** | Opus 5.5 | R1: bg plain, no storytelling, layout sloppy. R2: remove the silhouette photo, use a new one; R1 layout was better. R3 approved | R2: living dusk + scroll story (reverted). R3: neon-canyon photo, rush transition, live canyon background, R1 layout restored |
 | 06 | Toolkit + gold->cool transition | **Approved (round 2)** | Opus 5.5 (client did not switch to Fable) | R1: skills font doesn't suit; light vs plain skills doesn't suit | Skills in Archivo, one equal style, legend removed |
-| 07 | Contact / finale (branch `section-07`) | **Waiting for review** | Opus 5.5 | — | — |
+| 07 | Contact / finale | **Approved (round 3)** | Opus 5.5 | R1: g/y in the finale signature broken. R2: same in the hero; add a very subtle red to Reddy | Mask room for the g/y loops (finale + hero); subtle red on Reddy |
 | — | Final polish | Planned | — | — | — |
 
 ---
@@ -523,6 +523,6 @@ Verified at 1536x730 (sweep mid-way, finale fits one screen) and 375 phone (no s
 
 ## 17. Exact next step
 
-Client reviews Section 07 at http://localhost:5173 (branch `section-07`; scroll to the end). Apply changes, wait for approval, then merge into `main`.
+Section 07 (and the hero g/y + Reddy fixes) approved 2026-11-13 and merged into `main`. Every section is now built and approved.
 
 Then the **final polish pass** (Fable 5.2 recommended; on its own branch `polish`): performance (image weight: eight lossless photos of 1.2–2.5 MB; consider lazy-loading later chapters), real-speed motion review, mobile, reduced motion, accessibility, SEO/share tags (title, description, og image), favicon, and a production build check (`npm --prefix site run build`) before deploying to Vercel or Netlify. Note: an earlier design-skills pass over Sections 00–04 was REJECTED by the client; do not re-apply it.
