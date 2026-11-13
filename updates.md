@@ -517,6 +517,8 @@ Screen (100svh; the cyclist and the street stay vivid on the right, shade only u
 
 Round 2 (client 2026-11-13: "g and y are broken and open in the name Pragya"): the write-on mask clips to the script element's box and Pinyon's g/y loops hang below it, so their loops were cut. The script now has padding for the swash and the full loops (`.12em .14em .42em .04em`) with matching negative margins; "Reddy A" sits just below the loops. **Any future use of the masked script needs the same room.**
 
+Hero follow-up (client 2026-11-13: "even in the landing page g and y is broken; add a very subtle red to Reddy"): the hero's `.lockup .script` had the same clipping (mask with no room below the letters); it now has `padding: .12em .12em .42em; margin: -.12em 0 -.42em` so the lockup does not move and the g/y loops are complete. "Reddy" (`.lockup .serif`) now has a very subtle red: colour `rgba(244, 206, 196, .86)` (was neutral `rgba(235, 232, 218, .82)`) plus a faint poster-red glow `0 0 .45em rgba(229, 12, 10, .22)`.
+
 Verified at 1536x730 (sweep mid-way, finale fits one screen) and 375 phone (no sideways scroll); copy works with a real click; no console or shader errors; impeccable detector clean. Not verified: the sweep, drizzle and road reflections at real speed.
 
 ## 17. Exact next step

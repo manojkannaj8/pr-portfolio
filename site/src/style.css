@@ -85,7 +85,9 @@ body {
 .lockup .script {
   position: relative; display: block;
   font-size: var(--name); line-height: 1.05; white-space: nowrap;
-  padding: 0 .12em;                   /* room for the P swash and the a/y tails */
+  /* the write-on mask clips to this box: room for the P swash and the full g/y loops,
+     negative margins so the lockup does not move */
+  padding: .12em .12em .42em; margin: -.12em 0 -.42em;
   transform: rotate(-5deg);
   color: #fff4e2;
   /* Pinyon's hairlines (the g and y tails) fall below 1px at this size and break up: thicken them */
@@ -110,8 +112,10 @@ body {
   display: block; margin-top: -.2em;
   font-size: calc(var(--name) * .58); line-height: 1; letter-spacing: .1em; white-space: nowrap;
   padding-left: .1em;                /* balances the tracking */
-  color: rgba(235, 232, 218, .82);
-  text-shadow: 0 0 40px rgba(18, 11, 11, .6);
+  position: relative;
+  /* a very subtle red: warm tint and a faint glow from the poster red */
+  color: rgba(244, 206, 196, .86);
+  text-shadow: 0 0 .45em rgba(229, 12, 10, .22), 0 0 40px rgba(18, 11, 11, .6);
 }
 
 .under { display: flex; align-items: center; gap: 14px; margin-top: clamp(14px, 2.2svh, 28px); }
