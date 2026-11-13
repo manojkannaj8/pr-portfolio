@@ -10,10 +10,10 @@ import type { HeroScene } from './hero'
  * transitions already finished just hand their image on as the next A. So scrolling fast,
  * jumping, or scrolling back always lands on the right pair, whatever order triggers fire in.
  */
-export type Transition = 'rain' | 'grid' | 'water' | 'dusk'
-const MODE: Record<Transition, number> = { rain: 0, grid: 1, water: 2, dusk: 3 }
-// photographs with a live effect in the shader: 1 = beams(), 2 = dusk() in hero.ts
-const LIVE: Record<string, number> = { 'red-grid': 1, 'gold-silhouette': 2 }
+export type Transition = 'rain' | 'grid' | 'water' | 'rush'
+const MODE: Record<Transition, number> = { rain: 0, grid: 1, water: 2, rush: 3 }
+// photographs with a live effect in the shader: 1 = beams(), 2 = canyon() in hero.ts
+const LIVE: Record<string, number> = { 'red-grid': 1, 'neon-canyon': 2 }
 
 interface Step { from: string; to: string; mode: number; st: ScrollTrigger }
 

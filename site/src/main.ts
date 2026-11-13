@@ -14,13 +14,11 @@ import { mountFeatured } from './sections/featured'
 import { mountMore } from './sections/more'
 import { createBackdrop } from './gl/backdrop'
 import { createComet } from './fx/comet'
-import { setLenis } from './scroll'
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 if (!reduce) {
   const lenis = new Lenis({ lerp: 0.1 })
-  setLenis(lenis)
   lenis.on('scroll', ScrollTrigger.update)
   gsap.ticker.add((t) => lenis.raf(t * 1000))
   gsap.ticker.lagSmoothing(0)

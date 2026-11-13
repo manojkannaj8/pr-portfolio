@@ -33,7 +33,7 @@ IMAGES = {
     "red-rooftop-gate": "Neon Rooftop Gate in the Rain.png",
     "red-grid": "Neon Red Grid Cityscape.png",
     "gold-reflections": "Golden Reflections Over the Night City.png",
-    "gold-silhouette": "Woman Silhouette Over a Glowing Cityscape.png",
+    "neon-canyon": "Neon Hong Kong Traffic Canyon(new).png",  # Section 05 (replaced the silhouette, 2026-11-13)
     "cool-fog": "Neon Fog Over Chongqing Skyline.png",
     "cool-hongkong": "Neon Hong Kong Night Ride.png",
 }

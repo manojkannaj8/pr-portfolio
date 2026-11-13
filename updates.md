@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 on branch `section-05`, client reviewing for changes. Skills-polish pass rejected (not merged).**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 round 3 (new neon-canyon photo, rush transition, round-1 layout) on branch `section-05` — waiting for client review.**
 
 ---
 
@@ -458,6 +458,19 @@ Feedback: "there are no animations and effects in the bg image in section 5, it 
 - The four demos are unchanged (Path Finder Dijkstra, Exam Scheduler timetable with clash highlighting, schema, dashboard sketch), still labelled as illustrations.
 
 Verified at 1536x730 (opening view, all four steps, each plate fits, line drawn from the right light, interruption, reset on leaving) and 375 phone (beacon per plate, no sideways scroll); no errors; impeccable detector clean. Not verified: the living-dusk effects and camera glides at real speed (hidden preview pane).
+
+### Section 05 · round 3 (client feedback 2026-11-13): new photo, round-1 layout back
+
+Feedback: "remove the More work bg image, I don't like it, use a different image (change of plans); the previous layout was better: slightly minimal and showed the projects on one page". Client then added `aa-pr-upscaled-photos/Neon Hong Kong Traffic Canyon(new).png` ("doesn't need to be gold chapter, reddish or whatever suits best"). Absolutes from the client: **the transition must be perfect and creative; the background subtly interactive with slight animation; no AI slop.**
+
+- **Photo:** the silhouette photo is removed everywhere (source deleted by the client, `gold-silhouette*.webp` removed, `prep_assets.py` maps the new file to slug **`neon-canyon`**, exported lossless). Analysis: red/orange neon both sides, teal/green signs in the shadows, rivers of amber headlights. It bridges Chapter II's gold (headlights) and Chapter III's cool teal, so it stays the last image of Chapter II; the section keeps the gold accents and gold comet.
+- **Layout:** the round-1 one-screen layout is restored (index of four projects on the left; choosing one slides in the demo plate). Round 2's scroll-told walk is reverted (still in git history, commit f151f79). The text-side shade is deeper (0.9 -> 0 by 58% of the width) because the canyon is far busier than the silhouette; the street and right half stay at full strength.
+- **Transition, "rush into the street"** (`uMode = 3`, style `'rush'`, replaced the dusk bloom): the river city is pulled into light streaks toward the canyon's vanishing point (image uv 0.43, 0.68; `VP` in hero.ts), the canyon opens outward from that point out of its own depth (scaled from 2.4x to 1x, its zoom blur clearing), with an edge tinted by the street's two neons (red/teal by angle), then lands exactly on the sharpened photograph. Blur samples are jittered per pixel so streaks are smooth, not stepped.
+- **Live background** (`canyon()` in hero.ts; live-effect id 2 for `neon-canyon` in `backdrop.ts`): depth parallax with the pointer (near buildings shift more than the far street; extra overscan, zoom 1.04+), the neon near the pointer warms, light pulses travel up the street on head/tail lights only, occasional "tired tube" dips on a band of neon, and a slow band-by-band breathing of the neon. Everything is subtle and off under reduced motion.
+
+Verified: rush at 35% and 75% (stills), settled screen fits 1536x730 with the index readable, Path Finder demo, phone 375 (no sideways scroll), no shader or console errors, impeccable detector clean. Not verified: the rush, parallax and light pulses at real speed.
+
+Open question for the client: the photo shows real brand signs, including **Winston (a cigarette brand)** twice on the left, plus Sony, Hitachi, Zanussi, Eterna. Earlier the client had the DP World sign removed from the rooftop photo.
 
 ### Image quality fix (2026-11-13, branch `section-05`)
 
