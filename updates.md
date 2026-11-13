@@ -192,7 +192,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
 | 05 | More work | **Approved (round 3)** | Opus 5.5 | R1: bg plain, no storytelling, layout sloppy. R2: remove the silhouette photo, use a new one; R1 layout was better. R3 approved | R2: living dusk + scroll story (reverted). R3: neon-canyon photo, rush transition, live canyon background, R1 layout restored |
 | 06 | Toolkit + gold->cool transition | **Approved (round 2)** | Opus 5.5 (client did not switch to Fable) | R1: skills font doesn't suit; light vs plain skills doesn't suit | Skills in Archivo, one equal style, legend removed |
-| 07 | Contact / finale | Planned | — | — | — |
+| 07 | Contact / finale (branch `section-07`) | **Waiting for review** | Opus 5.5 | — | — |
 | — | Final polish | Planned | — | — | — |
 
 ---
