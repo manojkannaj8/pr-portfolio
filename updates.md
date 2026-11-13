@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–05 approved (on `main`). Section 06 (Chapter III title + Toolkit, gold->cool transition) built on branch `section-06` — waiting for client review.**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–06 approved, merged into `main`. Next: Section 07 Contact / finale.**
 
 ---
 
@@ -191,7 +191,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 03 | Experience & Research | **Approved (round 2)** | Opus 5.5 | R1: make the red cuboids move; HIEN diagram broken, texts overlapping, make it proper and interactive | Shader beams animation; HIEN split into title screen + interactive pipeline diagram; reel clip fix |
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
 | 05 | More work | **Approved (round 3)** | Opus 5.5 | R1: bg plain, no storytelling, layout sloppy. R2: remove the silhouette photo, use a new one; R1 layout was better. R3 approved | R2: living dusk + scroll story (reverted). R3: neon-canyon photo, rush transition, live canyon background, R1 layout restored |
-| 06 | Toolkit + gold->cool transition (branch `section-06`) | **Waiting for review** | Opus 5.5 (client did not switch to Fable) | — | — |
+| 06 | Toolkit + gold->cool transition | **Approved (round 2)** | Opus 5.5 (client did not switch to Fable) | R1: skills font doesn't suit; light vs plain skills doesn't suit | Skills in Archivo, one equal style, legend removed |
 | 07 | Contact / finale | Planned | — | — | — |
 | — | Final polish | Planned | — | — | — |
 
@@ -500,6 +500,6 @@ Verified at 1536x730 (fog transition at 30/50/75%, title, toolkit fits one scree
 
 ## 16. Exact next step
 
-Client reviews Section 06 at http://localhost:5173 (branch `section-06`; scroll past More work). Apply changes, wait for approval, then merge into `main`.
+Section 06 approved 2026-11-13 and merged into `main`.
 
 Then **Section 07 Contact / finale** (image `cool-hongkong`, last section, own branch `section-07`): achievements recap (CGPA 9.26/10; HIEN research paper) and contact: **email pragyareddy103@gmail.com**, GitHub, LinkedIn, LeetCode (links in section 2). **Never the phone number.** Then the final polish pass (Fable recommended).
