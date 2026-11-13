@@ -470,7 +470,7 @@ Feedback: "remove the More work bg image, I don't like it, use a different image
 
 Verified: rush at 35% and 75% (stills), settled screen fits 1536x730 with the index readable, Path Finder demo, phone 375 (no sideways scroll), no shader or console errors, impeccable detector clean. Not verified: the rush, parallax and light pulses at real speed.
 
-Open question for the client: the photo shows real brand signs, including **Winston (a cigarette brand)** twice on the left, plus Sony, Hitachi, Zanussi, Eterna. Earlier the client had the DP World sign removed from the rooftop photo.
+Brand signs in the photo (two Winston cigarette signs, Sony, Hitachi, Zanussi, Eterna): **client decision 2026-11-13: keep the photo as is.** Do not remove or blur them.
 
 ### Image quality fix (2026-11-13, branch `section-05`)
 
