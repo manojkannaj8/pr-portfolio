@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–05 approved, merged into `main` (Chapters I and II complete). Next: Section 06 Toolkit, opening Chapter III.**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–05 approved (on `main`). Section 06 (Chapter III title + Toolkit, gold->cool transition) built on branch `section-06` — waiting for client review.**
 
 ---
 
@@ -191,7 +191,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 03 | Experience & Research | **Approved (round 2)** | Opus 5.5 | R1: make the red cuboids move; HIEN diagram broken, texts overlapping, make it proper and interactive | Shader beams animation; HIEN split into title screen + interactive pipeline diagram; reel clip fix |
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
 | 05 | More work | **Approved (round 3)** | Opus 5.5 | R1: bg plain, no storytelling, layout sloppy. R2: remove the silhouette photo, use a new one; R1 layout was better. R3 approved | R2: living dusk + scroll story (reverted). R3: neon-canyon photo, rush transition, live canyon background, R1 layout restored |
-| 06 | Toolkit | Planned | — | — | — |
+| 06 | Toolkit + gold->cool transition (branch `section-06`) | **Waiting for review** | Opus 5.5 (client did not switch to Fable) | — | — |
 | 07 | Contact / finale | Planned | — | — | — |
 | — | Final polish | Planned | — | — | — |
 
@@ -478,12 +478,26 @@ Client: "did you reduce the bg image quality, why do the images look dull?" Caus
 
 Separate, deliberate darkening still in place on approved screens (for text legibility): brightness multiplier 0.6 behind the Chapter I statement, 0.63 behind the HIEN diagram, 0.8 behind the two featured projects; CSS scrims up to 0.62–0.8 alpha on the text side of Education, Experience, HIEN, the project screens and Section 05.
 
-## 15. Exact next step
+## 15. Section 06 · Chapter III "Clarity" · Toolkit (built, Opus 5.5, branch `section-06`)
 
-Git: repo https://github.com/manojkannaj8/pr-portfolio (public). `main` = approved state (hero, comet, Sections 01–04). The CV PDF (phone number) and `charlton.zip` are git-ignored and must stay out of the repo.
+Files: `site/src/sections/toolkit.ts`, Section 06 block at the end of `site/src/style.css`, mounted in `main.ts` after Section 05; comet switches to `cool` at `.ch6` `top 55%` (back to `gold` on the way up). Cool palette tokens on `.ch6` (`--c-ink #060e14, --c-fog #2f4848, --c-teal #6fd8d0, --c-blue #4fb3ff, --c-amber #f09b33, --c-hot #e6f4f2`); DESIGN.md updated with clarity-teal and clarity-fog.
 
-**Decision 2026-11-13: the client REJECTED the design-skills pass over Sections 00–04** (branch `skills-polish`: eyebrows removed, 01/02/03 removed, themed browser surfaces, text-wrap, 44px touch targets). It is not merged; do not re-apply it to the approved sections unless the client asks. The branch still exists on GitHub (commit 1a7ca00) only because deleting it needs the client's own permission; it can be deleted.
+**Chapter transition gold -> cool: "fog rolls in"** (`uMode = 4`, style `'fog'`, scrubbed `.ch6` `top bottom` -> `top 5%`): drifting fog (two noise layers, rolling across as you scroll) comes in over the neon canyon and cools it (its warm neon greys toward teal), thickens into light and dark billows that swallow the street, and as it thins it is the fog skyline that shows, first through the clearings, then everywhere.
 
-Section 05 approved 2026-11-13 and merged into `main`. Build each next section on its own branch (`section-06`, ...), push it, and merge into `main` when the client approves.
+**Live background** (`fogSky()` in hero.ts, live-effect id 3 for `cool-fog`): wisps drift through the fog bank, the river reflections shimmer (gently), the amber towers glow and ease out of step, and **clarity**: around the pointer the fog thins and the scene clears. Off under reduced motion. (The canyon's depth parallax is limited to the canyon.)
 
-Then **Section 06 Toolkit** (image `cool-fog`, opens Chapter III, carries the **gold -> cool chapter transition**: use **Fable 5.2** for the transition), with `comet.setPalette('cool')`.
+Screens:
+1. **Chapter title** (100svh): "Clarity" (Charlton Thin, `min(31vw, 62svh)`, cool white with teal and blue glow) condenses out of the fog: each letter sharpens from a 22px blur in an irregular order while the tracking closes in. Corners: "Chapter III of III", "Toolkit", "Six skill groups", "Languages to LLMs".
+2. **Toolkit** (100svh, one screen): "Toolkit" heading and an evidence panel on the left; the six CV skill groups as rows of words on the right, coming into focus out of the fog top to bottom. Every skill is a button: point at, tap or tab to it and the panel shows **where she used it**, derived only from the CV's project stacks and descriptions (e.g. SHAP -> HIEN research, Credit Risk Scoring; Java -> Path Finder; Streamlit Dashboards -> ARGO, Health Predictor, E-Commerce). Skills that share a project with it glow; the rest dim. Skills not tied to a project shown on the site (C++, Hugging Face Transformers, scikit-learn, PyTorch, Pandas, NumPy, Flask, Git, GitHub, PyCharm, Colab, Kaggle) are quieter and say "Listed in her CV skills · Not tied to a project shown on this site". Legend: "Brighter: used in a project shown on this site".
+- Phones: rows stack; the evidence panel sticks to the bottom of the screen while tapping.
+- Reduced motion: fades only.
+
+Also fixed (affects approved Section 05): the Exam Scheduler demo threw errors if it was closed or switched while still placing exams; it now stops quietly.
+
+Verified at 1536x730 (fog transition at 30/50/75%, title, toolkit fits one screen, SHAP evidence + related skills) and 375 phone (no sideways scroll, sticky evidence panel); no console or shader errors; impeccable detector clean. Not verified: fog drift, clarity-under-the-pointer and the title condensing at real speed.
+
+## 16. Exact next step
+
+Client reviews Section 06 at http://localhost:5173 (branch `section-06`; scroll past More work). Apply changes, wait for approval, then merge into `main`.
+
+Then **Section 07 Contact / finale** (image `cool-hongkong`, last section, own branch `section-07`): achievements recap (CGPA 9.26/10; HIEN research paper) and contact: **email pragyareddy103@gmail.com**, GitHub, LinkedIn, LeetCode (links in section 2). **Never the phone number.** Then the final polish pass (Fable recommended).

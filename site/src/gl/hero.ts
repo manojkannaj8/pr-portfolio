@@ -22,8 +22,8 @@ uniform sampler2D uTex;
 uniform sampler2D uNext;   // chapter image A (current)
 uniform sampler2D uNextB;  // chapter image B (incoming)
 uniform float uBlend;      // 0 = A, 1 = B: transition between chapter images
-uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = rush into the street
-uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon
+uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = rush into the street, 4 = fog rolls in
+uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon, 3 fog skyline
 uniform float uFxB;        // same for slot B
 uniform vec2 uRes;
 uniform float uTexAspect;
@@ -118,7 +118,35 @@ vec3 canyon(vec2 uv, vec3 c) {
   c += c * neon * exp(-dot(pd, pd) / 0.02) * 0.45 * uBend * uMotion;
   return c;
 }
+// ---- fog skyline photo (Section 06, Chapter III "Clarity") ----
+const vec3 FOG = vec3(0.30, 0.41, 0.41);   // the photo's teal-grey fog, lifted
+float fogField(vec2 q, float t) {
+  return noise2(q * 2.4 + vec2(t * 0.035, t * 0.008)) * 0.62 + noise2(q * 6.0 - vec2(t * 0.05, 0.0)) * 0.38;
+}
+vec3 fogSky(sampler2D t, vec2 uv, vec3 c) {
+  vec2 q = uv * vec2(uTexAspect, 1.0);
+  float sky = smoothstep(0.42, 0.56, uv.y);            // the fog bank above the skyline
+  float water = 1.0 - smoothstep(0.19, 0.25, uv.y);    // the river
+  // 1. wisps drift through the fog bank
+  float w = fogField(q, uTime);
+  c = mix(c, c + FOG * 0.32, sky * smoothstep(0.45, 0.85, w) * 0.65 * uMotion);
+  // 2. the river's reflections shimmer
+  if (water > 0.0) {
+    vec2 wu = uv + vec2(sin(uv.y * 240.0 + uTime * 1.5) * 0.0008 + sin(uv.y * 90.0 - uTime * 0.9) * 0.0005, 0.0) * uMotion;
+    c = mix(c, texture2D(t, clamp(wu, 0.0, 1.0)).rgb, water);
+  }
+  // 3. the amber towers glow and ease, slowly, out of step with each other
+  float amber = smoothstep(0.35, 0.7, c.r) * smoothstep(0.08, 0.3, c.r - c.b);
+  c *= 1.0 + amber * 0.07 * sin(uTime * 0.7 + uv.x * 9.0) * uMotion;
+  // 4. clarity: around the pointer the fog thins and the scene clears
+  vec2 pd = (vUv - uMouse) * vec2(uRes.x / uRes.y, 1.0);
+  float clear = exp(-dot(pd, pd) / 0.03) * uBend * uMotion;
+  c = mix(c, max((c - FOG * 0.16) * 1.14, 0.0), clear * sky * 0.75);
+  return c;
+}
+
 vec3 live(sampler2D t, vec2 uv, vec3 c, float fx) {
+  if (fx > 2.5) return fogSky(t, uv, c);
   if (fx > 1.5) return canyon(uv, c);
   return beams(t, uv, c);
 }
@@ -220,7 +248,7 @@ void main() {
   vec2 np = (cover(vUv) - 0.5) / uNextZoom + 0.5;
   np -= (uMouse - 0.5) * vec2(0.006, 0.004) * uMotion;
   // next chapter image: full brightness and the same light sharpening as the hero photo
-  vec2 na = uFxA > 1.5 ? np + canyonShift(np) : np;
+  vec2 na = (uFxA > 1.5 && uFxA < 2.5) ? np + canyonShift(np) : np;   // depth parallax is the canyon's only
   vec3 nx = sharpSample(uNext, clamp(na, 0.0, 1.0));
   if (uFxA > 0.5) nx = live(uNext, clamp(na, 0.0, 1.0), nx, uFxA);
   if (uBlend > 0.0 && uMode < 0.5) {
@@ -281,7 +309,7 @@ void main() {
     float glint = exp(-abs(d) * 110.0) * (0.55 + 0.45 * sin(vUv.x * 160.0 + uTime * 3.0)) * settle;
     float glow = exp(-abs(d) * 14.0) * 0.22 * settle;
     nx = mix(nx, nb, m) + vec3(1.0, 0.74, 0.32) * (glint * 0.9 + glow);
-  } else if (uBlend > 0.0) {
+  } else if (uBlend > 0.0 && uMode < 3.5) {
     // rush into the street (gold reflections -> neon canyon). Long exposure, again: the river city
     // is pulled into light streaks toward the street's vanishing point, as if the camera were
     // yanked forward; the canyon opens outward from that same point, out of its own depth, its
@@ -318,6 +346,28 @@ void main() {
     vec3 neonTint = mix(vec3(1.0, 0.2, 0.12), vec3(0.18, 0.95, 0.85), 0.5 + 0.5 * sin(ang * 5.0 + uTime * 1.2));
     float edge = exp(-abs(front - 0.03) * 34.0) * (1.0 - smoothstep(0.8, 1.0, e));
     nx = mix(sa, sb, m) + neonTint * edge * 0.6;
+  } else if (uBlend > 0.0) {
+    // fog rolls in (gold -> cool: Chapter II -> Chapter III "Clarity"). Drifting fog comes in off
+    // the river and swallows the neon canyon, cooling it as it thickens; when it thins again it
+    // is the new skyline that shows, first through the clearings, then everywhere.
+    float e = uBlend;
+    vec2 q = np * vec2(uTexAspect, 1.0);
+    float drift = e * 1.4;                                   // the bank rolls across as you scroll
+    float f = fogField(q + vec2(-drift, drift * 0.15), uTime * 6.0);
+    float g = noise2(q * 1.1 + vec2(-drift * 0.6, 0.0));
+    float dens = smoothstep(0.0, 0.48, e) * (1.0 - smoothstep(0.52, 1.0, e));   // 0 -> thick -> 0
+    float veil = clamp(dens * 1.45 + (f - 0.5) * 1.1 * dens + (g - 0.5) * 0.5 * dens, 0.0, 1.0);
+    // the swap happens under the fog, clearings first
+    float swap = smoothstep(0.36, 0.66, e + (f - 0.5) * 0.32);
+    vec3 nb = sharpSample(uNextB, clamp(np, 0.0, 1.0));
+    if (uFxB > 0.5) nb = live(uNextB, clamp(np, 0.0, 1.0), nb, uFxB);
+    // the canyon cools as the fog arrives: its warm neon greys toward teal
+    float lumA = dot(nx, vec3(0.3, 0.55, 0.15));
+    vec3 cooled = mix(nx, lumA * vec3(0.72, 1.0, 1.0) + nx * 0.25, smoothstep(0.08, 0.45, e));
+    vec3 base = mix(cooled, nb, swap);
+    // fog: teal-grey, lit from within by whatever burns behind it
+    vec3 fogC = mix(FOG * 0.42, FOG * 1.45, smoothstep(0.2, 0.85, f)) + base * 0.3;   // billows: light and dark
+    nx = mix(base, fogC, veil * 0.97);
   }
   nx *= uNextBright;
   float burn = uExit * 1.7 - colRand * 0.32 - nSlow * 0.22 - (1.0 - vUv.y) * 0.38;

@@ -12,6 +12,7 @@ import { mountEducation } from './sections/education'
 import { mountResearch } from './sections/research'
 import { mountFeatured } from './sections/featured'
 import { mountMore } from './sections/more'
+import { mountToolkit } from './sections/toolkit'
 import { createBackdrop } from './gl/backdrop'
 import { createComet } from './fx/comet'
 
@@ -37,6 +38,7 @@ document.fonts.ready.then(() => {
   mountResearch(app, hero, backdrop)
   mountFeatured(app, hero, backdrop)
   mountMore(app, hero, backdrop)
+  mountToolkit(app, hero, backdrop)
 
   // cursor comet: palette follows the chapter in view
   const comet = createComet()
@@ -51,6 +53,12 @@ document.fonts.ready.then(() => {
     start: 'top 55%',
     onEnter: () => comet.setPalette('gold'),
     onLeaveBack: () => comet.setPalette('red'),
+  })
+  ScrollTrigger.create({
+    trigger: '.ch6',
+    start: 'top 55%',
+    onEnter: () => comet.setPalette('cool'),
+    onLeaveBack: () => comet.setPalette('gold'),
   })
   ScrollTrigger.refresh()
   if (import.meta.env.DEV) Object.assign(window, { __hero: hero, __comet: comet, __st: ScrollTrigger, __gsap: gsap })

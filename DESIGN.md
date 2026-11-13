@@ -21,10 +21,12 @@ colors:
   reflection-hot: "#ffe6c2"
   reflection-pale: "#fff4e0"
   clarity-ink: "#060e14"
+  clarity-fog: "#2f4848"
+  clarity-teal: "#6fd8d0"
   clarity-blue: "#4fb3ff"
   clarity-magenta: "#7a3068"
   clarity-fog-amber: "#f09b33"
-  clarity-hot: "#e6ecff"
+  clarity-hot: "#e6f4f2"
 typography:
   script:
     fontFamily: "Pinyon Script, cursive"
@@ -130,7 +132,8 @@ Each chapter is a night-photograph grade: a near-black ink, a deep tone, a core,
 - **Reflection Core** (reflection-core): filled or completed states in Chapter II (done steps, filled out-of-fold cells).
 
 ### Tertiary
-- **Clarity Blue** (clarity-blue), **Clarity Magenta** (clarity-magenta), **Clarity Fog Amber** (clarity-fog-amber): reserved for Chapter III (the comet palette already uses them); values are refined when Chapter III is built.
+- **Clarity Teal** (clarity-teal): Chapter III accents (labels, active skills, rules), taken from the fog skyline's teal-grey fog, lifted to a luminous teal. **Clarity Fog** (clarity-fog) is the fog itself.
+- **Clarity Blue** (clarity-blue), **Clarity Magenta** (clarity-magenta), **Clarity Fog Amber** (clarity-fog-amber): the cool comet palette and Section 07's Hong Kong blues and magentas.
 
 ### Neutral
 - **Exposure Ink** (exposure-ink): page background behind the canvas.

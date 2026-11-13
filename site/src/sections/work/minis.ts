@@ -142,7 +142,10 @@ const exam: Mini = {
         tl!.call(() => {
           const c = chips[e]
           const a = c.getBoundingClientRect()
-          el.querySelector(`.ex-slot[data-s="${slot[e]}"] .ex-in`)!.appendChild(c)
+          const target = el.querySelector(`.ex-slot[data-s="${slot[e]}"] .ex-in`)
+          // the demo was closed or switched mid-run: stop quietly
+          if (!target || !c.isConnected) { tl?.kill(); return }
+          target.appendChild(c)
           const b = c.getBoundingClientRect()
           c.classList.add('placed')
           gsap.fromTo(c, { x: a.left - b.left, y: a.top - b.top }, { x: 0, y: 0, duration: 0.45, ease: 'expo.out' })
