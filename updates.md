@@ -4,7 +4,7 @@
 > Working rule: build **one section at a time**, stop after each, tell the client how to view it, and wait for approval before moving on.
 > Design context: **`PRODUCT.md`** (who the site is for, purpose, constraints) and **`DESIGN.md`** + `.impeccable/design.json` (the visual system, North Star "Long Exposure") live at the project root (set up 2026-11-13 with impeccable). Read them too. For every section: load the relevant design skills (impeccable, ui-ux-pro-max, taste-skill, animate, choreograph), run impeccable's critique before showing the client, and run `impeccable detect --json <changed files>` until it is clean.
 
-Last updated: 2026-11-13 · Stage: **Hero and Sections 01–04 approved (on `main`). Section 05 round 3 (new neon-canyon photo, rush transition, round-1 layout) on branch `section-05` — waiting for client review.**
+Last updated: 2026-11-13 · Stage: **Hero and Sections 01–05 approved, merged into `main` (Chapters I and II complete). Next: Section 06 Toolkit, opening Chapter III.**
 
 ---
 
@@ -190,7 +190,7 @@ Re-run assets after changing source photos: `cd site && python scripts/prep_asse
 | 02 | Education | **Approved** | Opus 5.5 | Approved first round | — |
 | 03 | Experience & Research | **Approved (round 2)** | Opus 5.5 | R1: make the red cuboids move; HIEN diagram broken, texts overlapping, make it proper and interactive | Shader beams animation; HIEN split into title screen + interactive pipeline diagram; reel clip fix |
 | 04 | Featured work + red->gold transition | **Approved (round 2)** | Fable 5.2 (R1), Opus 5.5 (R2) | R1: project slides look soulless, plain, no interaction, "AI slop" | Rebuilt ARGO as an interactive console and Credit Risk as a live stacking diagram; photo shows through again |
-| 05 | More work (branch `section-05`) | **Waiting for review** | Opus 5.5 | — | — |
+| 05 | More work | **Approved (round 3)** | Opus 5.5 | R1: bg plain, no storytelling, layout sloppy. R2: remove the silhouette photo, use a new one; R1 layout was better. R3 approved | R2: living dusk + scroll story (reverted). R3: neon-canyon photo, rush transition, live canyon background, R1 layout restored |
 | 06 | Toolkit | Planned | — | — | — |
 | 07 | Contact / finale | Planned | — | — | — |
 | — | Final polish | Planned | — | — | — |
@@ -484,6 +484,6 @@ Git: repo https://github.com/manojkannaj8/pr-portfolio (public). `main` = approv
 
 **Decision 2026-11-13: the client REJECTED the design-skills pass over Sections 00–04** (branch `skills-polish`: eyebrows removed, 01/02/03 removed, themed browser surfaces, text-wrap, 44px touch targets). It is not merged; do not re-apply it to the approved sections unless the client asks. The branch still exists on GitHub (commit 1a7ca00) only because deleting it needs the client's own permission; it can be deleted.
 
-Client is reviewing `section-05` (Section 05 More work) for changes. On approval, merge into `main`.
+Section 05 approved 2026-11-13 and merged into `main`. Build each next section on its own branch (`section-06`, ...), push it, and merge into `main` when the client approves.
 
 Then **Section 06 Toolkit** (image `cool-fog`, opens Chapter III, carries the **gold -> cool chapter transition**: use **Fable 5.2** for the transition), with `comet.setPalette('cool')`.
