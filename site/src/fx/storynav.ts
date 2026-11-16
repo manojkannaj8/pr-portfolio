@@ -100,7 +100,7 @@ export function mountStoryNav() {
     vel += (v - vel) * 0.18
     const h = track.clientHeight
     bead.style.transform = `translate3d(-50%, ${(f * h).toFixed(1)}px, 0)`
-    const len = reduce ? 0 : Math.min(140, Math.abs(vel) * 34)
+    const len = reduce ? 0 : Math.min(70, Math.abs(vel) * 18)
     trail.style.height = `${len.toFixed(1)}px`
     trail.style.transform = `translate3d(-50%, ${(f * h - (vel > 0 ? len : 0)).toFixed(1)}px, 0)`
     trail.classList.toggle('up', vel < 0)

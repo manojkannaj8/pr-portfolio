@@ -186,19 +186,14 @@ vec3 rooftop(vec2 uv, vec3 c) {
              * smoothstep(0.1, 0.12, uv.y) * (1.0 - smoothstep(0.22, 0.24, uv.y));
   float tube = smoothstep(0.32, 0.7, c.r) * smoothstep(0.05, 0.25, c.r - c.b);   // red/orange neon light
   float k = (banner + refl) * tube;
-  // 1. stutter: in most 5.5s cycles the whole banner flicks off and on for ~0.7s
-  float cyc = floor(uTime / 5.5);
-  float ph = fract(uTime / 5.5) * 5.5;
-  float stutter = step(0.35, hash(cyc * 3.1)) * step(ph, 0.7) * step(0.45, hash(floor(uTime * 14.0) + cyc * 7.0));
-  // 2. now and then one character tires: it dims and buzzes for a few seconds
+  // soft and smooth: the banner breathes slowly, each character a little out of step, and now and
+  // then the whole sign eases down to a gentle dim and back (no hard on/off)
   float glyph = floor((uv.x - 0.405) / 0.047);
-  float gclock = floor(uTime / 3.0 + hash(glyph) * 7.0);
-  float tired = step(0.8, hash(glyph * 11.0 + gclock)) * (0.4 + 0.25 * sin(uTime * 31.0 + glyph * 3.0));
-  // 3. between those, a low hum
-  float hum = 0.05 * sin(uTime * 7.0 + sin(uTime * 1.3) * 2.0);
-  c *= 1.0 - k * stutter * 0.82 * uMotion;
-  c *= 1.0 - banner * tube * tired * uMotion;
-  c *= 1.0 + k * hum * uMotion;
+  float breath = 0.06 * sin(uTime * 0.9 + glyph * 0.7) + 0.03 * sin(uTime * 2.3 + glyph * 1.9);
+  float cyc = floor(uTime / 7.0);
+  float ph = fract(uTime / 7.0) * 7.0;
+  float dim = step(0.4, hash(cyc * 3.1)) * exp(-pow((ph - 3.5) / 0.6, 2.0)) * 0.22;
+  c *= 1.0 + k * (breath - dim) * uMotion;
   return c;
 }
 

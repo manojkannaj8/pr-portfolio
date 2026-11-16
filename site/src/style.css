@@ -1054,7 +1054,7 @@ html.contents-open { overflow: hidden; }
 .rail { --now: #e89135; position: fixed; z-index: 90; top: 0; right: 0; bottom: 0; width: 30px; }
 .rail-index {
   all: unset; cursor: pointer; position: absolute; top: 12px; right: 5px; width: 20px; height: 20px;
-  display: grid; place-items: center; color: rgba(245, 238, 230, .78);
+  display: grid; place-items: center; color: rgba(245, 238, 230, .4); transition: color .25s ease;
   font-size: 0; /* the word is for screen readers; the lines are the icon */
 }
 .rail-index::before, .rail-index::after { content: ""; position: absolute; left: 4px; right: 4px; height: 1.5px; background: currentColor; }
@@ -1063,19 +1063,19 @@ html.contents-open { overflow: hidden; }
 .rail-index:hover, .rail-index:focus-visible { color: #fff; }
 .rail-index:focus-visible { outline: 2px solid var(--now); outline-offset: 3px; }
 
-.rail-track { position: absolute; top: 46px; bottom: 22px; right: 14px; width: 2px; cursor: ns-resize; touch-action: none; }
+.rail-track { position: absolute; top: 46px; bottom: 22px; right: 14px; width: 1px; cursor: ns-resize; touch-action: none; }
 .rail-track::before { content: ""; position: absolute; inset: 0 -12px; } /* a wider grab area */
-.rail-seg { position: absolute; left: 0; width: 2px; background: var(--c); opacity: .42; transition: opacity .3s ease; }
-.rail:hover .rail-seg, .rail.dragging .rail-seg { opacity: .75; }
+.rail-seg { position: absolute; left: 0; width: 1px; background: var(--c); opacity: .22; transition: opacity .4s ease; }
+.rail:hover .rail-seg, .rail.dragging .rail-seg { opacity: .55; }
 .rail-bead {
-  position: absolute; left: 50%; top: -4.5px; width: 9px; height: 9px; border-radius: 50%; pointer-events: none;
-  background: #fff; box-shadow: 0 0 6px 2px var(--now), 0 0 18px 4px var(--now);
+  position: absolute; left: 50%; top: -3px; width: 6px; height: 6px; border-radius: 50%; pointer-events: none;
+  background: rgba(255, 255, 255, .85); box-shadow: 0 0 5px 1px var(--now), 0 0 12px 2px color-mix(in srgb, var(--now) 55%, transparent);
 }
 /* the long exposure: the bead's light smears behind it as it moves */
 .rail-trail {
-  position: absolute; left: 50%; top: 0; width: 3px; pointer-events: none; border-radius: 2px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--now) 70%, #fff);
-  filter: drop-shadow(0 0 4px var(--now));
+  position: absolute; left: 50%; top: 0; width: 2px; pointer-events: none; border-radius: 2px; opacity: .55;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), var(--now) 75%, rgba(255, 255, 255, .8));
+  filter: drop-shadow(0 0 3px var(--now));
 }
 .rail-trail.up { background: linear-gradient(0deg, rgba(255, 255, 255, 0), var(--now) 70%, #fff); }
 
@@ -1083,7 +1083,8 @@ html.contents-open { overflow: hidden; }
   all: unset; cursor: pointer; position: absolute; left: 50%; top: var(--y, 0); width: 16px; height: 16px;
   translate: -50% -50%; display: grid; place-items: center;
 }
-.rail-tick::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--c); opacity: .8; transition: transform .25s ease, opacity .25s ease; }
+.rail-tick::before { content: ""; width: 3px; height: 3px; border-radius: 50%; background: var(--c); opacity: .35; transition: transform .25s ease, opacity .25s ease; }
+.rail:hover .rail-tick::before { opacity: .8; }
 .rail-tick.on::before { opacity: 0; }
 .rail-tick span {
   position: absolute; right: 20px; top: 50%; translate: 0 -50%; white-space: nowrap; pointer-events: none;
