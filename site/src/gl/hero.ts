@@ -23,7 +23,7 @@ uniform sampler2D uNext;   // chapter image A (current)
 uniform sampler2D uNextB;  // chapter image B (incoming)
 uniform float uBlend;      // 0 = A, 1 = B: transition between chapter images
 uniform float uMode;       // transition style: 0 = falling rain, 1 = grid tiles, 2 = rising water, 3 = rush into the street, 4 = fog rolls in, 5 = light painting
-uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon, 3 fog skyline, 4 night ride
+uniform float uFxA;        // live effect of the photo in slot A: 0 none, 1 red-grid beams, 2 neon canyon, 3 fog skyline, 4 night ride, 5 rooftop neon banner
 uniform float uFxB;        // same for slot B
 uniform vec2 uRes;
 uniform float uTexAspect;
@@ -177,7 +177,33 @@ vec3 nightRide(sampler2D t, vec2 uv, vec3 c) {
   return c;
 }
 
+// ---- rooftop gate photo (Section 02): the neon banner flickers like a tired sign ----
+vec3 rooftop(vec2 uv, vec3 c) {
+  // the banner (image uv) and its reflection on the wet roof
+  float banner = smoothstep(0.39, 0.41, uv.x) * (1.0 - smoothstep(0.635, 0.655, uv.x))
+             * smoothstep(0.53, 0.56, uv.y) * (1.0 - smoothstep(0.78, 0.8, uv.y));
+  float refl = smoothstep(0.38, 0.4, uv.x) * (1.0 - smoothstep(0.5, 0.52, uv.x))
+             * smoothstep(0.1, 0.12, uv.y) * (1.0 - smoothstep(0.22, 0.24, uv.y));
+  float tube = smoothstep(0.32, 0.7, c.r) * smoothstep(0.05, 0.25, c.r - c.b);   // red/orange neon light
+  float k = (banner + refl) * tube;
+  // 1. stutter: in most 5.5s cycles the whole banner flicks off and on for ~0.7s
+  float cyc = floor(uTime / 5.5);
+  float ph = fract(uTime / 5.5) * 5.5;
+  float stutter = step(0.35, hash(cyc * 3.1)) * step(ph, 0.7) * step(0.45, hash(floor(uTime * 14.0) + cyc * 7.0));
+  // 2. now and then one character tires: it dims and buzzes for a few seconds
+  float glyph = floor((uv.x - 0.405) / 0.047);
+  float gclock = floor(uTime / 3.0 + hash(glyph) * 7.0);
+  float tired = step(0.8, hash(glyph * 11.0 + gclock)) * (0.4 + 0.25 * sin(uTime * 31.0 + glyph * 3.0));
+  // 3. between those, a low hum
+  float hum = 0.05 * sin(uTime * 7.0 + sin(uTime * 1.3) * 2.0);
+  c *= 1.0 - k * stutter * 0.82 * uMotion;
+  c *= 1.0 - banner * tube * tired * uMotion;
+  c *= 1.0 + k * hum * uMotion;
+  return c;
+}
+
 vec3 live(sampler2D t, vec2 uv, vec3 c, float fx) {
+  if (fx > 4.5) return rooftop(uv, c);
   if (fx > 3.5) return nightRide(t, uv, c);
   if (fx > 2.5) return fogSky(t, uv, c);
   if (fx > 1.5) return canyon(uv, c);

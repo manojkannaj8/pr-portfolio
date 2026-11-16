@@ -12,8 +12,8 @@ import type { HeroScene } from './hero'
  */
 export type Transition = 'rain' | 'grid' | 'water' | 'rush' | 'fog' | 'sweep'
 const MODE: Record<Transition, number> = { rain: 0, grid: 1, water: 2, rush: 3, fog: 4, sweep: 5 }
-// photographs with a live effect in the shader: 1 = beams(), 2 = canyon(), 3 = fogSky(), 4 = nightRide() in hero.ts
-const LIVE: Record<string, number> = { 'red-grid': 1, 'neon-canyon': 2, 'cool-fog': 3, 'cool-hongkong': 4 }
+// photographs with a live effect in the shader: 1 = beams(), 2 = canyon(), 3 = fogSky(), 4 = nightRide(), 5 = rooftop() in hero.ts
+const LIVE: Record<string, number> = { 'red-grid': 1, 'neon-canyon': 2, 'cool-fog': 3, 'cool-hongkong': 4, 'red-rooftop-gate': 5 }
 
 interface Step { from: string; to: string; mode: number; st: ScrollTrigger }
 

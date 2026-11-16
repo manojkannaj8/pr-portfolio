@@ -24,7 +24,7 @@ export function mountHero(root: HTMLElement) {
         </div>
 
         <p class="corner bl t-caps" data-fade>CGPA<br>9.26 / 10</p>
-        <p class="corner bc t-caps" data-fade><span class="cue"></span>Scroll</p>
+        <p class="corner bc t-caps" data-fade><span class="cue"></span><span class="bc-row">Scroll<span class="bc-sep" aria-hidden="true">·</span><button type="button" class="hero-contents t-caps" data-open-contents aria-haspopup="dialog">Contents</button></span></p>
         <p class="corner br t-caps" data-fade>AI &amp; LLMs<br>Explainable AI</p>
       </div>
     </section>

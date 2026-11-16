@@ -16,11 +16,14 @@ import { mountToolkit } from './sections/toolkit'
 import { mountContact } from './sections/contact'
 import { createBackdrop } from './gl/backdrop'
 import { createComet } from './fx/comet'
+import { setLenis } from './scroll'
+import { mountStoryNav } from './fx/storynav'
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 if (!reduce) {
   const lenis = new Lenis({ lerp: 0.1 })
+  setLenis(lenis)
   lenis.on('scroll', ScrollTrigger.update)
   gsap.ticker.add((t) => lenis.raf(t * 1000))
   gsap.ticker.lagSmoothing(0)
@@ -41,6 +44,8 @@ document.fonts.ready.then(() => {
   mountMore(app, hero, backdrop)
   mountToolkit(app, hero, backdrop)
   mountContact(app, hero, backdrop)
+  // the story rail (custom scrollbar) and the contents overlay
+  mountStoryNav()
 
   // cursor comet: palette follows the chapter in view
   const comet = createComet()

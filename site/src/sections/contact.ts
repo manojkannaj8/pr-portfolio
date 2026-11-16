@@ -47,6 +47,7 @@ export function mountContact(root: HTMLElement, hero: HeroScene, backdrop: Backd
         <div class="ch7-actions">
           <a class="ch7-btn primary" href="mailto:${EMAIL}">Email Pragya</a>
           <button type="button" class="ch7-btn ch7-copy">Copy address</button>
+          <a class="ch7-btn ch7-resume" href="/Pragya-Reddy-A-Resume.pdf" target="_blank" rel="noopener">View resume<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 L12 4 M6 4 H12 V10"/></svg></a>
           <span class="ch7-copied" role="status" aria-live="polite"></span>
         </div>
       </div>
@@ -56,6 +57,7 @@ export function mountContact(root: HTMLElement, hero: HeroScene, backdrop: Backd
       </ul>
     </div>
 
+    <p class="ch7-epilogue t-secondary" data-deco>This is creative storytelling, more than a portfolio.</p>
     <footer class="ch7-foot t-caps" data-deco>
       <span>Pragya Reddy A</span><span>AI/ML · B.Tech CSE 2024 — 2028</span>
     </footer>
