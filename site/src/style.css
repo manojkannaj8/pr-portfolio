@@ -933,7 +933,7 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch7 {
   --c-blue: #4fb3ff; --c-magenta: #e14bb8; --c-teal: #6fd8d0; --c-hot: #e6ecff; --c-pale: #f4f7ff; --rule: rgba(230, 236, 255, .18);
   position: relative; z-index: 1; min-height: 100svh; color: var(--c-hot);
-  display: grid; grid-template-rows: 1fr auto auto;
+  display: grid; grid-template-rows: 1fr auto;
   padding: clamp(72px, 10.5svh, 120px) clamp(16px, 5vw, 96px) clamp(16px, 3svh, 28px);
 }
 .ch7::before {
@@ -947,7 +947,7 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch7-corner.tl { top: clamp(16px, 2.4vw, 32px); left: clamp(16px, 2.2vw, 36px); }
 .ch7-corner.tr { top: clamp(16px, 2.4vw, 32px); right: clamp(16px, 2.2vw, 36px); text-align: right; }
 
-.ch7-main { align-self: center; max-width: min(680px, 46vw); display: grid; gap: clamp(18px, 3.4svh, 34px); }
+.ch7-main { align-self: center; max-width: min(720px, 50vw); display: grid; gap: clamp(20px, 3.6svh, 36px); }
 
 /* the signature: the hero lockup, smaller, in the finale's cool light */
 .ch7-sign { --name: min(10vw, 17svh); margin: 0; font-weight: inherit; line-height: 1; display: grid; justify-items: start; }
@@ -973,7 +973,7 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch7-facts span { font-size: clamp(13px, 1vw, 16px); line-height: 1.45; color: rgba(230, 236, 255, .78); }
 
 /* the one action: the address itself, under a neon tube that switches on */
-.ch7-cta { display: grid; gap: 14px; }
+.ch7-cta { display: grid; gap: clamp(14px, 2.2svh, 20px); }
 .ch7-email {
   position: relative; justify-self: start; text-decoration: none; color: #fff;
   font-family: var(--font-ui); font-stretch: 87.5%; font-weight: 500; font-size: clamp(24px, min(2.8vw, 5.6svh), 48px); line-height: 1.2; letter-spacing: -.01em;
@@ -1012,12 +1012,14 @@ html.has-comet, html.has-comet * { cursor: none !important; }
 .ch7-resume { gap: 8px; }
 .ch7-resume svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.6; transition: transform .25s cubic-bezier(.23, 1, .32, 1); }
 @media (hover: hover) and (pointer: fine) { .ch7-resume:hover svg { transform: translate(2px, -2px); } }
-/* the last words of the story */
-.ch7-epilogue { margin: 0 0 12px; justify-self: start; font-style: italic; font-weight: 300; font-size: clamp(16px, 1.3vw, 22px); color: rgba(230, 236, 255, .78); }
+
 .ch7-copied { font-size: 13px; color: var(--c-teal); min-width: 4em; }
 
 /* secondary: the three profiles */
-.ch7-links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.ch7-links { list-style: none; margin: 0; padding: 14px 0 0; display: flex; flex-wrap: wrap; gap: 4px 0; border-top: 1px solid var(--rule); }
+.ch7-links li { display: flex; align-items: center; }
+@media (min-width: 821px) { .ch7-links { flex-wrap: nowrap; width: max-content; max-width: calc(100vw - 2 * clamp(16px, 5vw, 96px) - 30px); } }
+.ch7-links li + li::before { content: ""; width: 1px; height: 14px; margin: 0 clamp(14px, 1.6vw, 24px); background: rgba(230, 236, 255, .25); }
 .ch7-links a { display: inline-flex; align-items: baseline; gap: 10px; min-height: 44px; align-items: center; text-decoration: none; color: var(--c-hot); }
 .ch7-links .t-caps { letter-spacing: .16em; color: var(--c-blue); }
 .ch7-link-t { font-size: clamp(14px, 1.05vw, 17px); background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .3s cubic-bezier(.23, 1, .32, 1); padding-bottom: 2px; }

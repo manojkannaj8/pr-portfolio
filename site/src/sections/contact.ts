@@ -57,7 +57,6 @@ export function mountContact(root: HTMLElement, hero: HeroScene, backdrop: Backd
       </ul>
     </div>
 
-    <p class="ch7-epilogue t-secondary" data-deco>This is creative storytelling, more than a portfolio.</p>
     <footer class="ch7-foot t-caps" data-deco>
       <span>Pragya Reddy A</span><span>AI/ML · B.Tech CSE 2024 — 2028</span>
     </footer>
