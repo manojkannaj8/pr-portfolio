@@ -33,7 +33,7 @@ history.scrollRestoration = 'manual'
 window.scrollTo(0, 0)
 
 document.fonts.ready.then(() => {
-  const app = document.querySelector<HTMLDivElement>('#app')!
+  const app = document.querySelector<HTMLElement>('#app')!
   const hero = mountHero(app)
   mountIntro(app, hero)
   // chapter photographs after the hero, in scroll order (crimson is already loaded by the hero)

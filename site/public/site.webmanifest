@@ -1,0 +1,13 @@
+{
+  "name": "Pragya Reddy A",
+  "short_name": "Pragya",
+  "description": "Her work, told as one night in three chapters.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#120b0b",
+  "theme_color": "#120b0b",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

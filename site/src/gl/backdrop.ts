@@ -25,6 +25,7 @@ export interface Backdrop {
 export function createBackdrop(hero: HeroScene, first: string): Backdrop {
   const u = hero.uniforms
   const steps: Step[] = []
+  let shownA = first
 
   const apply = () => {
     let a = first
@@ -38,21 +39,27 @@ export function createBackdrop(hero: HeroScene, first: string): Backdrop {
       a = s.from; b = s.to; p = q; mode = s.mode
       break
     }
+    // load on demand (a jump from the contents or the rail can land anywhere)
     const ta = hero.texture(a)
-    if (ta) u.uNext.value = ta
+    if (ta) { u.uNext.value = ta; shownA = a } else hero.preload(a).then(apply, () => {})
     const tb = b ? hero.texture(b) : undefined
+    if (b && !tb) hero.preload(b).then(apply, () => {})
     // until the incoming image has loaded, hold on the current one
     u.uBlend.value = tb ? p : 0
     if (tb) u.uNextB.value = tb
     u.uMode.value = mode
-    u.uFxA.value = LIVE[a] ?? 0
-    u.uFxB.value = b ? LIVE[b] ?? 0 : 0
+    // a photo's live effect runs only on that photo, never on the one still showing while it loads
+    u.uFxA.value = LIVE[shownA] ?? 0
+    u.uFxB.value = b && tb ? LIVE[b] ?? 0 : 0
   }
 
   return {
     add({ from, to, style, trigger, start = 'top bottom', end = 'top 15%' }) {
-      hero.preload(from).then(apply)
-      hero.preload(to).then(apply)
+      // fetch each photograph about two screens before its transition starts, not all at page load
+      ScrollTrigger.create({
+        trigger, start: 'top bottom+=200%', once: true,
+        onEnter: () => { hero.preload(from).then(apply); hero.preload(to).then(apply) },
+      })
       const st = ScrollTrigger.create({ trigger, start, end, onUpdate: apply, onRefresh: apply })
       steps.push({ from, to, mode: MODE[style], st })
       return st

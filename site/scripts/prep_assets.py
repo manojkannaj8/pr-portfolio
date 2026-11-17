@@ -5,7 +5,6 @@ One-off asset pipeline. Re-run any time the source photos change:
 
 Reads the untouched originals in ../aa-pr-upscaled-photos and writes:
   public/img/<slug>.webp      full width (1672px), for desktop + WebGL textures
-  public/img/<slug>-960.webp  960px, for phones
   public/fonts/Charlton-*.woff2
 
 Cleaning steps (client-approved 2026-11-12):
@@ -109,8 +108,7 @@ def images() -> None:
         if slug in CLEANERS:
             im = CLEANERS[slug](im)
         write_webp(im, OUT_IMG / f"{slug}.webp", 101)  # >100 = lossless WebP (client: full quality)
-        small = cv2.resize(im, (960, round(im.shape[0] * 960 / im.shape[1])), interpolation=cv2.INTER_AREA)
-        write_webp(small, OUT_IMG / f"{slug}-960.webp", 86)
+        # (no small copies: every device gets the full-quality photograph)
         print("img ", slug)
 
 
